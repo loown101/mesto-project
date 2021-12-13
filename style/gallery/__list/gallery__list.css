@@ -1,0 +1,23 @@
+.gallery__list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  display: grid;
+  justify-content: center;
+
+  grid-template-columns: repeat(auto-fit, 282px);
+  column-gap: 17px;
+  row-gap: 20px;
+}
+
+.gallery__list:nth-child(n) {
+  margin-bottom: 47px;
+}
+
+@media (max-width: 320px) {
+  .gallery__list:nth-child(n) {
+    margin-bottom: 30px;
+  }
+}

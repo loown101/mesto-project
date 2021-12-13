@@ -1,0 +1,9 @@
+.gallery__pic {
+  max-width: 282px;
+  min-height: 282px;
+
+  vertical-align: top;
+
+  object-fit: cover;
+  object-position: center;
+} 

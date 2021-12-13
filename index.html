@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto Russia</title>
+  <link rel="stylesheet" href="./style/index.css">
+  <link rel="shortcut icon" href="./images/Vector_logo_black.svg" type="image/x-icon">
+</head>
+
+<body class="page">
+  <header class="header">
+    <img src="./images/Vector.svg" alt="Mesto Russia." class="header__logo">
+    <hr class="header__hr">
+  </header>
+
+  <main>
+    <section class="profile">
+      <img src="./images/image.jpg" alt="Аватар профиля." class="profile__avatar">
+      <div class="profile__info">
+        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <button class="profile__button-change">
+          <svg width="10" height="10" viewbox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 1.32827L2.60377 8.7666L1.28302 7.41936L8.66038 0L10 1.32827ZM0 10L1.96226 9.41177L0.584906 8.08349L0 10Z"
+              fill="white" />
+          </svg>
+        </button>
+      </div>
+      <p class="profile__subtitle">Исследователь океана</p>
+      <button class="profile__button-add">
+        <span class="profile__button-add-text">+</span>
+      </button>
+    </section>
+
+    <section class="gallery" aria-label="Галерея">
+      <ul class="gallery__list">
+        <li class="gallery__item">
+          <img src="./images/hramvasiliy.jpg" alt="Храм Василия Блаженного." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Москва</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+
+        <li class="gallery__item">
+          <img src="./images/kolizey.jpg" alt="Колизей." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Рим</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+
+        <li class="gallery__item">
+          <img src="./images/piramida.jpg" alt="Пирамида Хеопса." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Каир</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+
+        <li class="gallery__item">
+          <img src="./images/pizantower.jpg" alt="Пизанская Башня." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Пиза</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+
+        <li class="gallery__item">
+          <img src="./images/tadjmahal.jpg" alt="Тадж-Махал." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Агра</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+
+        <li class="gallery__item">
+          <img src="./images/berlin.jpg" alt="Бранденбу́ргские воро́та." class="gallery__pic">
+          <div class="gallery__container-descriprion">
+            <p class="gallery__item-descriprion">Берлин</p>
+            <button class="gallery__buttom-like"></button>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="pop-up">
+      <form class="pop-up__forms" action="#">
+        <h2 class="pop-up__title">Редактировать профиль</h2>
+
+        <label for="pop-up__profile-name">
+          <input type="text" id="pop-up__profile-name" class="pop-up__profile-input" placeholder="Жак-Ив-Кусто">
+        </label>
+
+        <label for="pop-up__profile-description">
+          <input type="text" id="pop-up__profile-description" class="pop-up__profile-input"
+            placeholder="Исследователь океана">
+        </label>
+
+        <button class="pop-up__btn-save">
+          <p class="pop-up__btn-save-text">Сохранить</p>
+        </button>
+
+        <button class="pop-up__btn-close">
+          <svg viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="pop-up__svg-close">
+            <path d="M32 28.8L19.2 16L32 3.2L28.8 0L16 12.8L3.2 0L0 3.2L12.8 16L0 28.8L3.2 32L16 19.2L28.8 32L32 28.8Z"
+              fill="white" />
+          </svg>
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__author">&copy; 2021 Mesto Russia</p>
+  </footer>
+</body>
+
+</html>

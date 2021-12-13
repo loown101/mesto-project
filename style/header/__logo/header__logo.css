@@ -1,0 +1,18 @@
+.header__logo {
+  max-width: 142px;
+}
+
+.header__logo:nth-child(n) {
+  margin-bottom: 41px;
+}
+
+@media (max-width: 320px) {
+  .header__logo {
+    max-width: 104px;
+  }
+
+  .header__logo:nth-child(n) {
+    padding-left: 27px;
+    margin-bottom: 28px;
+  }
+}

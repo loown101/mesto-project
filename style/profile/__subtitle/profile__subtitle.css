@@ -1,0 +1,28 @@
+.profile__subtitle {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+
+  font-size: 18px;
+  line-height: 22px;
+
+  grid-area: subtitle;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+  align-self: start;
+}
+
+@media (max-width: 1167px) {
+  .profile__subtitle:nth-child(n) {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .profile__subtitle {
+    font-size: 14px;
+  }
+}

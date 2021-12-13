@@ -1,0 +1,23 @@
+.footer {
+  display: flex;
+  justify-content: flex-start;
+
+  width: 100%;
+}
+
+.footer:nth-child(n) {
+  margin-bottom: 60px;
+}
+
+
+@media (max-width: 320px) {
+  .footer {
+    box-sizing: border-box;
+  }
+
+  .footer:nth-child(n) {
+    padding-left: 19px;
+    margin-bottom: 36px;
+  }
+}
+

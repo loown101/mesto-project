@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100%;
+}
+
+.header:nth-child(n) {
+  margin-top: 28px;
+  margin-bottom: 38px;
+}

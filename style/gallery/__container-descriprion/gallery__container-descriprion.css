@@ -1,0 +1,13 @@
+.gallery__container-descriprion {
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  background-color: #fff;
+}
+
+.gallery__container-descriprion:nth-child(n) {
+  padding: 25px 21px 26px 15px;
+}

@@ -1,0 +1,12 @@
+.profile__info {
+  display: flex;
+  align-items: center;
+
+  grid-area: info;
+}
+
+@media (max-width: 1167px) {
+  .profile__info:nth-child(n) {
+    margin-bottom: 6px;
+  } 
+}

@@ -1,0 +1,13 @@
+.profile__avatar {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 50%;
+
+  grid-area: avatar;
+}
+
+@media (max-width: 1167px) {
+  .profile__avatar:nth-child(n) {
+    margin-bottom: 21px;
+  } 
+}
