@@ -1,0 +1,40 @@
+.profile__button-change {  
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+
+  background-color: #000;
+  background-image: url(../../../../images/change.svg);
+  background-size: 10px 10px;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  border: solid 1px #fff;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  grid-area: btn-change;
+}
+
+.profile__button-change:nth-child(n) {
+  margin-top: 15px;
+  padding: 24px 24px 0 0;
+}
+
+.profile__button-change:hover {
+  opacity: .6;
+}
+
+@media (max-width: 768px) {
+  .profile__button-change {
+    background-size: 7px 7px;
+  }
+
+  .profile__button-change:nth-child(n) {
+    margin-top: 10px;
+    padding: 18px 18px 0 0;
+  }
+}
