@@ -19,7 +19,7 @@
     <section class="profile">
       <img src="./images/image.jpg" alt="Аватар профиля." class="profile__avatar">
       <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <h1 class="profile__title">Жак-Ив-Кусто</h1>
         <button class="profile__button-change" type="button"></button>
       </div>
       <p class="profile__subtitle">Исследователь океана</p>
@@ -28,68 +28,31 @@
 
     <section class="gallery" aria-label="Галерея">
       <ul class="gallery__list">
-        <li class="gallery__item">
-          <img src="./images/hramvasiliy.jpg" alt="Храм Василия Блаженного." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Москва</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
-
-        <li class="gallery__item">
-          <img src="./images/kolizey.jpg" alt="Колизей." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Рим</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
-
-        <li class="gallery__item">
-          <img src="./images/piramida.jpg" alt="Пирамида Хеопса." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Каир</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
-
-        <li class="gallery__item">
-          <img src="./images/pizantower.jpg" alt="Пизанская Башня." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Пиза</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
-
-        <li class="gallery__item">
-          <img src="./images/tadjmahal.jpg" alt="Тадж-Махал." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Агра</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
-
-        <li class="gallery__item">
-          <img src="./images/berlin.jpg" alt="Бранденбургские ворота." class="gallery__pic">
-          <div class="gallery__container-descriprion">
-            <p class="gallery__item-descriprion">Берлин</p>
-            <button class="gallery__buttom-like" type="button"></button>
-          </div>
-        </li>
+        <template id="card">
+          <li class="gallery__item">
+            <img src="#" alt="" class="gallery__pic">
+            <div class="gallery__container-descriprion">
+              <p class="gallery__item-descriprion"></p>
+              <button class="gallery__button-like" type="button"></button>
+            </div>
+            <button class="gallery__button-delete" type="button"></button>
+          </li>
+        </template>
       </ul>
     </section>
 
-    <section class="pop-up">
-      <form class="pop-up__forms" name="profile-forms" action="#">
+    <section class="pop-up pop-up__profile">
+      <form class="pop-up__forms" name="profile-forms" id="profile-forms" action="#">
         <h2 class="pop-up__title">Редактировать профиль</h2>
 
         <label for="pop-up__profile-name">
           <input type="text" id="pop-up__profile-name" name="profile-name" class="pop-up__profile-input"
-            placeholder="Жак-Ив-Кусто">
+            value="Жак-Ив-Кусто" required>
         </label>
 
         <label for="pop-up__profile-description">
           <input type="text" id="pop-up__profile-description" name="profile-description" class="pop-up__profile-input"
-            placeholder="Исследователь океана">
+            value="Исследователь океана" required>
         </label>
 
         <button class="pop-up__btn-save" type="submit">Сохранить</button>
@@ -97,11 +60,40 @@
         <button class="pop-up__btn-close" type="button"></button>
       </form>
     </section>
+
+    <section class="pop-up pop-up__place">
+      <form class="pop-up__forms" name="place-forms" id="place-forms" action="#">
+        <h2 class="pop-up__title">Новое место</h2>
+
+        <label for="pop-up__place-name">
+          <input type="url" id="pop-up__place-name" name="place-name" class="pop-up__profile-input"
+            placeholder="Ссылка на картинку" required>
+        </label>
+
+        <label for="pop-up__place-description">
+          <input type="text" id="pop-up__place-description" name="place-description" class="pop-up__profile-input"
+            placeholder="Название" required>
+        </label>
+
+        <button class="pop-up__btn-save" type="submit">Сохранить</button>
+        <button class="pop-up__btn-close" type="button"></button>
+      </form>
+    </section>
+
+    <section class="pop-up pop-up__image" aria-label="Модальное окно изображения.">
+      <figure class="pop-up__container-image">
+        <img src="#" alt="" class="pop-up__gallery-image">
+        <figcaption class="pop-up__desctiption-image"></figcaption>
+        <button class="pop-up__btn-close" type="button"></button>
+      </figure>
+    </section>
   </main>
 
   <footer class="footer">
     <p class="footer__author">&copy; 2021 Mesto Russia</p>
   </footer>
+
+  <script src="./script.js"></script>
 </body>
 
 </html>

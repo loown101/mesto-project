@@ -1,17 +1,21 @@
-.gallery__buttom-like {
+.gallery__button-like {
   background-color: transparent;
   border: none;
 
-  width: 22px;
+  width: 24px;
 
   line-height: 100%;
   
   background-image: url(../../../../images/heart.svg);
   background-position: center;
   background-repeat: no-repeat;
+
+  transition: .2s linear;
 }
 
-.gallery__buttom-like:hover {
-  opacity: 0.6;
+.gallery__button-like:hover {
+  opacity: .6;
   cursor: pointer;
+
+  transition: opacity .2s linear;
 }
