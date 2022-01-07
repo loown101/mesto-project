@@ -23,10 +23,8 @@
 }
 
 .pop-up__profile-input:focus {
-  border-bottom: none;
+  outline: solid 2px #6f9edd;
   border-radius: 5px;
-
-  box-shadow: 0px 0px 25px rgba(43, 42, 42, 0.15);
 }
 
 .pop-up__profile-input:focus::placeholder {

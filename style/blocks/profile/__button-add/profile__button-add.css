@@ -21,10 +21,14 @@
   grid-area: btn-add;
 
   padding: 23px 0;
+
+  transition: .2s linear;
 }
 
 .profile__button-add:hover {
   opacity: .6;
+
+  transition: opacity .2s linear;
 }
 
 @media (max-width: 1167px) {

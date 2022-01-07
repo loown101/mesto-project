@@ -22,8 +22,9 @@
 @import url('../style/blocks/gallery/__pic/gallery__pic.css');
 @import url('../style/blocks/gallery/__container-descriprion/gallery__container-descriprion.css');
 @import url('../style/blocks/gallery/__item-description/gallery__item-description.css');
-@import url('../style/blocks/gallery/__button-like/gallery__buttom-like.css');
-@import url('../style/blocks/gallery/__button-like/_active/gallery__buttom-like_active.css');
+@import url('../style/blocks/gallery/__button-like/gallery__button-like.css');
+@import url('../style/blocks/gallery/__button-delete/gallery__button-delete.css');
+@import url('../style/blocks/gallery/__button-like/_active/gallery__button-like_active.css');
 
 @import url('../style/blocks/footer/footer.css');
 @import url('../style/blocks/footer/__author/footer__author.css');
@@ -35,3 +36,6 @@
 @import url('../style/blocks/pop-up/__title/pop-up__title.css');
 @import url('../style/blocks/pop-up/__profile-input/pop-up__profile-input.css');
 @import url('../style/blocks/pop-up/__btn-save/pop-up__btn-save.css');
+@import url('../style/blocks/pop-up/__container-image/pop-up__container-image.css');
+@import url('../style/blocks/pop-up/__gallery-image/pop-up__figure-image.css');
+@import url('../style/blocks/pop-up/__desctiption-image/pop-up__desctiption-image.css');

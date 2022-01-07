@@ -1,4 +1,6 @@
 .gallery__item {
+  position: relative;
+
   margin: 0;
   padding: 0;
 

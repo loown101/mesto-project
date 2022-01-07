@@ -17,6 +17,8 @@
   cursor: pointer;
 
   grid-area: btn-change;
+
+  transition: .2s linear;
 }
 
 .profile__button-change:nth-child(n) {
@@ -26,6 +28,8 @@
 
 .profile__button-change:hover {
   opacity: .6;
+
+  transition: opacity .2s linear;
 }
 
 @media (max-width: 768px) {
