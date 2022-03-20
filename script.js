@@ -143,3 +143,27 @@ formElementPlace.addEventListener('submit', (evt) => {
 
   closePopup()
 });
+
+// document.addEventListener('keydown', function (evt) {
+//   if (evt.key === 'Escape') {
+//     closePopup()
+//   }
+// });
+
+popups.forEach(item => {
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Escape') {
+      closePopup()
+    }
+  })
+})
+
+popups.forEach(item => {
+  item.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('pop-up__gallery-image') || evt.target.closest('.pop-up__forms')) {
+      return false;
+    } else {
+      closePopup();
+    }
+  })
+})
