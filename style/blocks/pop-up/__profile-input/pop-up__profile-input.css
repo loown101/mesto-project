@@ -4,7 +4,7 @@
 
   box-sizing: 100%;
 
-  background-color:transparent;
+  background-color: transparent;
   border: none;
   outline: none;
 
@@ -14,17 +14,9 @@
 
   font-size: 14px;
   line-height: 17px;
-  
+
   padding-bottom: 10px;
-}
-
-.pop-up__profile-input:nth-child(n) {
   margin-bottom: 30px;
-}
-
-.pop-up__profile-input:focus {
-  outline: solid 2px #6f9edd;
-  border-radius: 5px;
 }
 
 .pop-up__profile-input:focus::placeholder {

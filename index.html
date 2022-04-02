@@ -42,17 +42,19 @@
     </section>
 
     <section class="pop-up pop-up__profile">
-      <form class="pop-up__forms" name="profile-forms" id="profile-forms" action="#">
+      <form class="pop-up__forms" name="profile-forms" id="profile-forms" action="#" novalidate>
         <h2 class="pop-up__title">Редактировать профиль</h2>
 
         <label for="pop-up__profile-name">
-          <input type="text" id="pop-up__profile-name" name="profile-name" class="pop-up__profile-input"
-            value="Жак-Ив-Кусто" required>
+          <input type="text" id="profile-name" name="profile-name" class="pop-up__profile-input" value="Жак-Ив-Кусто"
+            required minlength="2" maxlength="40">
+          <span class="pop-up__input-error profile-name-error"></span>
         </label>
 
         <label for="pop-up__profile-description">
-          <input type="text" id="pop-up__profile-description" name="profile-description" class="pop-up__profile-input"
-            value="Исследователь океана" required>
+          <input type="text" id="profile-description" name="profile-description" class="pop-up__profile-input"
+            value="Исследователь океана" required minlength="2" maxlength="200">
+          <span class="pop-up__input-error profile-description-error"></span>
         </label>
 
         <button class="pop-up__btn-save" type="submit">Сохранить</button>
@@ -62,17 +64,19 @@
     </section>
 
     <section class="pop-up pop-up__place">
-      <form class="pop-up__forms" name="place-forms" id="place-forms" action="#">
+      <form class="pop-up__forms" name="place-forms" id="place-forms" action="#" novalidate>
         <h2 class="pop-up__title">Новое место</h2>
 
-        <label for="pop-up__place-name">
-          <input type="url" id="pop-up__place-name" name="place-name" class="pop-up__profile-input"
-            placeholder="Ссылка на картинку" required>
+        <label for="pop-up__place-description">
+          <input type="text" id="place-description" name="place-description" class="pop-up__profile-input"
+            placeholder="Название" required minlength="2" maxlength="30">
+          <span class="pop-up__input-error place-description-error"></span>
         </label>
 
-        <label for="pop-up__place-description">
-          <input type="text" id="pop-up__place-description" name="place-description" class="pop-up__profile-input"
-            placeholder="Название" required>
+        <label for="pop-up__place-name">
+          <input type="url" id="place-name" name="place-name" class="pop-up__profile-input"
+            placeholder="Ссылка на картинку" required>
+          <span class="pop-up__input-error place-name-error"></span>
         </label>
 
         <button class="pop-up__btn-save" type="submit">Сохранить</button>
@@ -93,7 +97,8 @@
     <p class="footer__author">&copy; 2021 Mesto Russia</p>
   </footer>
 
-  <script src="./script.js"></script>
+  <script src="./script.js" type="module"></script>
+  <script src="./validation.js" type="module"></script>
 </body>
 
 </html>

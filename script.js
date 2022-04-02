@@ -12,12 +12,12 @@ const popupProfile = document.querySelector('.pop-up__profile');
 const popupPlace = document.querySelector('.pop-up__place');
 
 const formElement = document.querySelector('#profile-forms');
-const nameInput = document.querySelector('#pop-up__profile-name');
-const jobInput = document.querySelector('#pop-up__profile-description');
+const nameInput = document.querySelector('#profile-name');
+const jobInput = document.querySelector('#profile-description');
 
 const formElementPlace = document.querySelector('#place-forms');
-const placeLink = document.querySelector('#pop-up__place-name');
-const placeDescription = document.querySelector('#pop-up__place-description');
+const placeLink = document.querySelector('#place-name');
+const placeDescription = document.querySelector('#place-description');
 
 const initialCards = [
   {
@@ -144,11 +144,6 @@ formElementPlace.addEventListener('submit', (evt) => {
   closePopup()
 });
 
-// document.addEventListener('keydown', function (evt) {
-//   if (evt.key === 'Escape') {
-//     closePopup()
-//   }
-// });
 
 popups.forEach(item => {
   document.addEventListener('keydown', function (evt) {
