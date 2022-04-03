@@ -35,7 +35,11 @@
 @import url('../style/blocks/pop-up/__btn-close/pop-up__btn-close.css');
 @import url('../style/blocks/pop-up/__title/pop-up__title.css');
 @import url('../style/blocks/pop-up/__profile-input/pop-up__profile-input.css');
+@import url('../style/blocks/pop-up/__profile-input/_error/pop-up__profile-input_error.css');
+@import url('../style/blocks/pop-up/__profile-input/_valid/pop-up__profile-input_valid.css');
 @import url('../style/blocks/pop-up/__btn-save/pop-up__btn-save.css');
+@import url('../style/blocks/pop-up/__btn-save/_inactive/pop-up__btn-save_inactive.css');
 @import url('../style/blocks/pop-up/__container-image/pop-up__container-image.css');
 @import url('../style/blocks/pop-up/__gallery-image/pop-up__figure-image.css');
 @import url('../style/blocks/pop-up/__desctiption-image/pop-up__desctiption-image.css');
+@import url('../style/blocks/pop-up/__input-error/pop-up__input-error.css');
