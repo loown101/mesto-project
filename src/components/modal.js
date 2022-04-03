@@ -18,7 +18,7 @@ function closePopup() {
   });
 }
 
-function formSubmitHandler(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
   const nameInputValue = nameInput.value;
@@ -32,4 +32,4 @@ function formSubmitHandler(evt) {
   closePopup()
 }
 
-export { openPopup, closePopup, formSubmitHandler };
+export { openPopup, closePopup, handleProfileFormSubmit };

@@ -38,13 +38,18 @@ const popups = document.querySelectorAll('.pop-up');
 const popupProfile = document.querySelector('.pop-up__profile');
 const popupPlace = document.querySelector('.pop-up__place');
 
-const formElement = document.querySelector('#profile-forms');
+const profileForm = document.querySelector('#profile-forms');
 const nameInput = document.querySelector('#profile-name');
 const jobInput = document.querySelector('#profile-description');
 
-const formElementPlace = document.querySelector('#place-forms');
+const placeForm = document.querySelector('#place-forms');
 const placeLink = document.querySelector('#place-name');
 const placeDescription = document.querySelector('#place-description');
+
+const popupImage = document.querySelector('.pop-up__image');
+
+const imageGallery = document.querySelector('.pop-up__gallery-image');
+const figcaptionImageGallery = document.querySelector('.pop-up__desctiption-image')
 
 export {
   initialCards,
@@ -57,16 +62,19 @@ export {
   jobName,
 
   galleryList,
+  popupImage,
+  imageGallery,
+  figcaptionImageGallery,
 
   popups,
   popupProfile,
   popupPlace,
 
-  formElement,
+  profileForm,
   nameInput,
   jobInput,
 
-  formElementPlace,
+  placeForm,
   placeLink,
   placeDescription,
 }

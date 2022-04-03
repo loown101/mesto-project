@@ -9,16 +9,16 @@ import {
   closeButtons,
   profileName,
   jobName,
-  formElement,
+  profileForm,
   nameInput,
   jobInput,
-  formElementPlace,
+  placeForm,
   placeLink,
   placeDescription,
 } from './data.js';
-import { openPopup, closePopup, formSubmitHandler } from './modal.js';
+import { openPopup, closePopup, handleProfileFormSubmit } from './modal.js';
 import { popupConfig } from './configs.js';
-import { createImage } from './cards.js';
+import { addPrependCard } from './cards.js';
 import { enableValidation } from './validate.js';
 
 popups.forEach(item => {
@@ -39,7 +39,12 @@ popups.forEach(item => {
   })
 })
 
-addButton.addEventListener('click', () => openPopup(popupPlace));
+addButton.addEventListener('click', function () {
+  placeLink.value = '';
+  placeDescription.value = '';
+
+  openPopup(popupPlace)
+});
 
 editButton.addEventListener('click', function () {
   nameInput.value = profileName.textContent;
@@ -52,14 +57,17 @@ closeButtons.forEach(button => {
   button.addEventListener('click', closePopup);
 });
 
-formElement.addEventListener('submit', formSubmitHandler);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 
-formElementPlace.addEventListener('submit', (evt) => {
+placeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  createImage(placeLink.value, placeDescription.value);
+  addPrependCard(placeLink.value, placeDescription.value);
 
   closePopup()
+
+  placeLink.value = '';
+  placeDescription.value = '';
 });
 
 enableValidation({
