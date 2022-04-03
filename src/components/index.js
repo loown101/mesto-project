@@ -1,3 +1,5 @@
+import '../pages/index.css';
+
 import {
   popups,
   popupProfile,
@@ -61,4 +63,6 @@ formElementPlace.addEventListener('submit', (evt) => {
 });
 
 enableValidation();
+
+console.log('Hello, World!')
 
