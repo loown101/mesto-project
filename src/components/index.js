@@ -62,7 +62,12 @@ formElementPlace.addEventListener('submit', (evt) => {
   closePopup()
 });
 
-enableValidation();
+enableValidation({
+  formSelector: '.pop-up__forms',
+  inputSelector: '.pop-up__profile-input',
 
-console.log('Hello, World!')
+  submitButtonSelector: '.pop-up__btn-save',
+  inactiveButtonClass: 'pop-up__btn-save_inactive',
 
+  inputErrorClass: 'pop-up__profile-input_error',
+});

@@ -1,12 +1,12 @@
-const validationConfig = {
-  formSelector: '.pop-up__forms',
-  inputSelector: '.pop-up__profile-input',
+// const validationConfig = {
+//   formSelector: '.pop-up__forms',
+//   inputSelector: '.pop-up__profile-input',
 
-  submitButtonSelector: '.pop-up__btn-save',
-  inactiveButtonClass: 'pop-up__btn-save_inactive',
+//   submitButtonSelector: '.pop-up__btn-save',
+//   inactiveButtonClass: 'pop-up__btn-save_inactive',
 
-  inputErrorClass: 'pop-up__profile-input_error',
-}
+//   inputErrorClass: 'pop-up__profile-input_error',
+// }
 
 const popupConfig = {
   popupOpenClass: 'pop-up_opened',
@@ -31,4 +31,4 @@ const cardConfig = {
   galleryItemDescriptionSelector: '.gallery__item-descriprion',
 }
 
-export { validationConfig, popupConfig, cardConfig };
+export { popupConfig, cardConfig };
