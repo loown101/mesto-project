@@ -12,13 +12,13 @@ import { openPopup } from './modal.js';
 function like(event) {
   const target = event.target;
 
-  target.classList.toggle(likeButtonClassActive);
+  target.classList.toggle(cardConfig.likeButtonClassActive);
 }
 
 function del(event) {
   const target = event.target;
 
-  target.closest(galleryItemSelector).remove();
+  target.closest(cardConfig.galleryItemSelector).remove();
 }
 
 function createCard(placeLinkValue, placeDescriptionValue) {

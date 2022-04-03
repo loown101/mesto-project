@@ -29,6 +29,7 @@ const setEventListeners = (formElement, validateConfig) => {
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
+
       checkInputValidity(formElement, inputElement, validateConfig)
       toggleButtonState(inputList, buttonSubmit, validateConfig);
     });
@@ -37,7 +38,6 @@ const setEventListeners = (formElement, validateConfig) => {
 
 const enableValidation = (validateConfig) => {
   const formList = Array.from(document.querySelectorAll(validateConfig.formSelector));
-
 
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
