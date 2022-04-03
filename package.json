@@ -1,0 +1,22 @@
+{
+  "name": "yandex_practicum",
+  "version": "0.0.1",
+  "description": "Learning platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loown101/mesto-project.git"
+  },
+  "author": "Diana Pylaeva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loown101/mesto-project/issues"
+  },
+  "homepage": "https://github.com/loown101/mesto-project#readme",
+  "devDependencies": {
+    "webpack": "^5.71.0"
+  }
+}
