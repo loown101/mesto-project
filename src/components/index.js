@@ -6,7 +6,6 @@ import {
   popupPlace,
   editButton,
   addButton,
-  closeButtons,
   profileName,
   jobName,
   profileForm,
@@ -17,32 +16,22 @@ import {
   placeDescription,
 } from './data.js';
 import { openPopup, closePopup, handleProfileFormSubmit } from './modal.js';
-import { popupConfig } from './configs.js';
+import { popupConfig, validationConfig } from './configs.js';
 import { addPrependCard } from './cards.js';
 import { enableValidation } from './validate.js';
 
-popups.forEach(item => {
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Escape') {
-      closePopup()
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
+      closePopup(popup)
     }
-  })
-})
-
-popups.forEach(item => {
-  item.addEventListener('click', function (evt) {
-    if (evt.target.classList.contains(popupConfig.popupImageGalleryClass) || evt.target.closest('.pop-up__forms')) {
-      return false;
-    } else {
-      closePopup();
+    if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
+      closePopup(popup)
     }
   })
 })
 
 addButton.addEventListener('click', function () {
-  placeLink.value = '';
-  placeDescription.value = '';
-
   openPopup(popupPlace)
 });
 
@@ -53,21 +42,19 @@ editButton.addEventListener('click', function () {
   openPopup(popupProfile)
 });
 
-closeButtons.forEach(button => {
-  button.addEventListener('click', closePopup);
-});
-
 profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 placeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
+  evt.submitter.setAttribute('disabled', 'disabled');
+  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
+
   addPrependCard(placeLink.value, placeDescription.value);
 
   closePopup()
 
-  placeLink.value = '';
-  placeDescription.value = '';
+  placeForm.reset()
 });
 
 enableValidation({

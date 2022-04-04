@@ -10,12 +10,21 @@ import { popupConfig } from './configs.js';
 
 function openPopup(element) {
   element.classList.add(popupConfig.popupOpenClass);
+  document.addEventListener('keydown', closeByEscape);
 }
 
 function closePopup() {
   popups.forEach(element => {
     element.classList.remove(popupConfig.popupOpenClass);
+    document.removeEventListener('keydown', closeByEscape);
   });
+}
+
+function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector(popupConfig.popupOpenClass)
+    closePopup(openedPopup)
+  }
 }
 
 function handleProfileFormSubmit(evt) {
@@ -32,4 +41,4 @@ function handleProfileFormSubmit(evt) {
   closePopup()
 }
 
-export { openPopup, closePopup, handleProfileFormSubmit };
+export { openPopup, closePopup, handleProfileFormSubmit, closeByEscape };

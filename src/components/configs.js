@@ -1,16 +1,20 @@
-// const validationConfig = {
-//   formSelector: '.pop-up__forms',
-//   inputSelector: '.pop-up__profile-input',
+const validationConfig = {
+  formSelector: '.pop-up__forms',
+  inputSelector: '.pop-up__profile-input',
 
-//   submitButtonSelector: '.pop-up__btn-save',
-//   inactiveButtonClass: 'pop-up__btn-save_inactive',
+  submitButtonSelector: '.pop-up__btn-save',
+  inactiveButtonClass: 'pop-up__btn-save_inactive',
 
-//   inputErrorClass: 'pop-up__profile-input_error',
-// }
+  inputErrorClass: 'pop-up__profile-input_error',
+}
 
 const popupConfig = {
+  popupFormSelector: '.pop-up__forms',
+
   popupOpenClass: 'pop-up_opened',
   popupImageGalleryClass: 'pop-up__gallery-image',
+
+  popupButtonCloseClass: 'pop-up__btn-close',
 
   popupImageSelector: '.pop-up__image',
   popupGalleryImageSelector: '.pop-up__gallery-image',
@@ -31,4 +35,4 @@ const cardConfig = {
   galleryItemDescriptionSelector: '.gallery__item-descriprion',
 }
 
-export { popupConfig, cardConfig };
+export { popupConfig, cardConfig, validationConfig };
