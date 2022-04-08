@@ -19,6 +19,8 @@ const popupConfig = {
   popupImageSelector: '.pop-up__image',
   popupGalleryImageSelector: '.pop-up__gallery-image',
   popupDescriptionImageSelector: '.pop-up__desctiption-image',
+
+  popupAvatarActiveClass: 'profile__avatar-change_active',
 }
 
 const cardConfig = {
@@ -29,6 +31,8 @@ const cardConfig = {
 
   likeButtonSelector: '.gallery__button-like',
   deleteButtonSelector: '.gallery__button-delete',
+
+  likeShowSelector: '.gallery__show-like',
 
   galleryItemSelector: '.gallery__item',
   galleryPicSelector: '.gallery__pic',
