@@ -16,12 +16,15 @@
 
   <main>
     <section class="profile">
-      <img src="<%=require('./images/image.jpg')%>" alt="Аватар профиля." class="profile__avatar">
+      <button class="profile__edit-avatar">
+        <img src="#" alt="Аватар профиля." class="profile__avatar">
+        <span class="profile__avatar-change"></span>
+      </button>
       <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив-Кусто</h1>
+        <h1 class="profile__title"></h1>
         <button class="profile__button-change" type="button"></button>
       </div>
-      <p class="profile__subtitle">Исследователь океана</p>
+      <p class="profile__subtitle"></p>
       <button class="profile__button-add" type="button"></button>
     </section>
 
@@ -32,7 +35,10 @@
             <img src="#" alt="" class="gallery__pic">
             <div class="gallery__container-descriprion">
               <p class="gallery__item-descriprion"></p>
-              <button class="gallery__button-like" type="button"></button>
+              <div>
+                <button class="gallery__button-like" type="button"></button>
+                <p class="gallery__show-like"></p>
+              </div>
             </div>
             <button class="gallery__button-delete" type="button"></button>
           </li>
@@ -44,15 +50,15 @@
       <form class="pop-up__forms" name="profile-forms" id="profile-forms" action="#" novalidate>
         <h2 class="pop-up__title">Редактировать профиль</h2>
 
-        <label for="pop-up__profile-name">
-          <input type="text" id="profile-name" name="profile-name" class="pop-up__profile-input" value="Жак-Ив-Кусто"
-            required minlength="2" maxlength="40">
+        <label for="profile-name">
+          <input type="text" id="profile-name" name="profile-name" class="pop-up__profile-input" required minlength="2"
+            maxlength="40">
           <span class="pop-up__input-error profile-name-error"></span>
         </label>
 
-        <label for="pop-up__profile-description">
-          <input type="text" id="profile-description" name="profile-description" class="pop-up__profile-input"
-            value="Исследователь океана" required minlength="2" maxlength="200">
+        <label for="profile-description">
+          <input type="text" id="profile-description" name="profile-description" class="pop-up__profile-input" required
+            minlength="2" maxlength="200">
           <span class="pop-up__input-error profile-description-error"></span>
         </label>
 
@@ -66,13 +72,13 @@
       <form class="pop-up__forms" name="place-forms" id="place-forms" action="#" novalidate>
         <h2 class="pop-up__title">Новое место</h2>
 
-        <label for="pop-up__place-description">
+        <label for="place-description">
           <input type="text" id="place-description" name="place-description" class="pop-up__profile-input"
             placeholder="Название" required minlength="2" maxlength="30">
           <span class="pop-up__input-error place-description-error"></span>
         </label>
 
-        <label for="pop-up__place-name">
+        <label for="place-name">
           <input type="url" id="place-name" name="place-name" class="pop-up__profile-input"
             placeholder="Ссылка на картинку" required>
           <span class="pop-up__input-error place-name-error"></span>
@@ -85,10 +91,25 @@
 
     <section class="pop-up pop-up__image" aria-label="Модальное окно изображения.">
       <figure class="pop-up__container-image">
-        <img src="#" alt="" class="pop-up__gallery-image">
+        <img src="#" alt="" class="pop-up__gallery-image" data-id="">
         <figcaption class="pop-up__desctiption-image"></figcaption>
         <button class="pop-up__btn-close" type="button"></button>
       </figure>
+    </section>
+
+    <section class="pop-up pop-up__avatar" aria-label="Модальное окно изменения аватара.">
+      <form class="pop-up__forms" name="avatar-forms" id="avatar-forms" action="#" novalidate>
+        <h2 class="pop-up__title">Обновить фотографию</h2>
+
+        <label for="profile-avatar">
+          <input type="url" id="profile-avatar" name="profile-avatar" class="pop-up__profile-input"
+            placeholder="Ссылка на картинку" required>
+          <span class="pop-up__input-error profile-avatar-error"></span>
+        </label>
+
+        <button class="pop-up__btn-save" type="submit">Сохранить</button>
+        <button class="pop-up__btn-close" type="button"></button>
+      </form>
     </section>
   </main>
 

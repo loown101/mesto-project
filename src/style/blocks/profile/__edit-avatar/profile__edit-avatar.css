@@ -1,0 +1,21 @@
+.profile__edit-avatar {
+  position: relative;
+
+  border: none;
+
+  background-color: rgba(0, 0, 0, .8);
+
+  grid-area: avatar;
+}
+
+.profile__edit-avatar:hover {
+  cursor: pointer;
+
+  opacity: .8;
+}
+
+@media (max-width: 1167px) {
+  .profile__edit-avatar:nth-child(n) {
+    margin-bottom: 21px;
+  }
+}

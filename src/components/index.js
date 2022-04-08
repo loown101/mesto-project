@@ -8,17 +8,28 @@ import {
   addButton,
   profileName,
   jobName,
+  editAvatarBtn,
+  editAvatarBtnActive,
   profileForm,
+  avatarForm,
+  popupAvatar,
   nameInput,
   jobInput,
   placeForm,
   placeLink,
   placeDescription,
 } from './data.js';
-import { openPopup, closePopup, handleProfileFormSubmit } from './modal.js';
+import {
+  showEditBtn,
+  hiddenEditBtn,
+  openPopup,
+  closePopup,
+  handleProfileFormSubmit,
+  handleAvatarFormSubmit,
+} from './modal.js';
 import { popupConfig, validationConfig } from './configs.js';
-import { addPrependCard } from './cards.js';
 import { enableValidation } from './validate.js';
+import { getPostsMe, postPostsCard } from './api.js'
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -42,7 +53,14 @@ editButton.addEventListener('click', function () {
   openPopup(popupProfile)
 });
 
-profileForm.addEventListener('submit', handleProfileFormSubmit);
+profileForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  evt.submitter.setAttribute('disabled', 'disabled');
+  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
+
+  handleProfileFormSubmit(evt)
+});
 
 placeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -50,12 +68,34 @@ placeForm.addEventListener('submit', (evt) => {
   evt.submitter.setAttribute('disabled', 'disabled');
   evt.submitter.classList.add(validationConfig.inactiveButtonClass);
 
-  addPrependCard(placeLink.value, placeDescription.value);
+  postPostsCard(placeLink.value, placeDescription.value);
 
   closePopup()
 
   placeForm.reset()
 });
+
+editAvatarBtn.addEventListener('mouseover', () => {
+  showEditBtn(editAvatarBtnActive)
+});
+
+editAvatarBtn.addEventListener('mouseout', () => {
+  hiddenEditBtn(editAvatarBtnActive)
+});
+
+editAvatarBtn.addEventListener('click', () => {
+  openPopup(popupAvatar);
+});
+
+avatarForm.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+
+  evt.submitter.setAttribute('disabled', 'disabled');
+  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
+
+  handleAvatarFormSubmit(evt);
+  avatarForm.reset();
+})
 
 enableValidation({
   formSelector: '.pop-up__forms',
@@ -66,3 +106,5 @@ enableValidation({
 
   inputErrorClass: 'pop-up__profile-input_error',
 });
+
+getPostsMe();

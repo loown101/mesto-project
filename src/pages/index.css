@@ -10,6 +10,9 @@
 @import url('../style/blocks/header/__logo/header__logo.css');
 
 @import url('../style/blocks/profile/profile.css');
+@import url('../style/blocks/profile/__edit-avatar/profile__edit-avatar.css');
+@import url('../style/blocks/profile/__avatar-change/profile__avatar-change.css');
+@import url('../style/blocks/profile/__avatar-change/_active/profile__avatar-change_active.css');
 @import url('../style/blocks/profile/__avatar/profile__avatar.css');
 @import url('../style/blocks/profile/__info/profile__info.css');
 @import url('../style/blocks/profile/__title/profile__title.css');
@@ -23,6 +26,7 @@
 @import url('../style/blocks/gallery/__container-descriprion/gallery__container-descriprion.css');
 @import url('../style/blocks/gallery/__item-description/gallery__item-description.css');
 @import url('../style/blocks/gallery/__button-like/gallery__button-like.css');
+@import url('../style/blocks/gallery/__show-like/gallery__show-like.css');
 @import url('../style/blocks/gallery/__button-delete/gallery__button-delete.css');
 @import url('../style/blocks/gallery/__button-like/_active/gallery__button-like_active.css');
 

@@ -3,10 +3,13 @@
   align-items: center;
 
   grid-area: info;
+
+  padding-left: 30px;
 }
 
 @media (max-width: 1167px) {
   .profile__info:nth-child(n) {
     margin-bottom: 4px;
-  } 
+    padding: 0;
+  }
 }
