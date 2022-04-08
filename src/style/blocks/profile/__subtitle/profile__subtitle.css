@@ -13,11 +13,14 @@
   overflow: hidden;
 
   align-self: start;
+
+  padding-left: 30px;
 }
 
 @media (max-width: 1167px) {
   .profile__subtitle:nth-child(n) {
     margin-bottom: 30px;
+    padding: 0;
   }
 }
 

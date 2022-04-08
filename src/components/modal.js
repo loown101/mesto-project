@@ -1,12 +1,23 @@
 import {
   popups,
+  profileAvatar,
   profileName,
   jobName,
   nameInput,
   jobInput,
+  avatarInput,
 } from './data.js';
 
-import { popupConfig } from './configs.js';
+import { popupConfig, validationConfig } from './configs.js';
+import { pathPostsPersonalInfo, pathPostsAvatar } from './api.js';
+
+function showEditBtn(editImage) {
+  editImage.classList.add(popupConfig.popupAvatarActiveClass);
+}
+
+function hiddenEditBtn(editImage) {
+  editImage.classList.remove(popupConfig.popupAvatarActiveClass);
+}
 
 function openPopup(element) {
   element.classList.add(popupConfig.popupOpenClass);
@@ -33,12 +44,47 @@ function handleProfileFormSubmit(evt) {
   const nameInputValue = nameInput.value;
   const jobInputValue = jobInput.value;
 
-  if (nameInputValue.length !== 0 && jobInputValue.length !== 0) {
-    profileName.textContent = nameInputValue;
-    jobName.textContent = jobInputValue;
-  }
+  profileName.textContent = nameInputValue;
+  jobName.textContent = jobInputValue;
+
+  pathPostsPersonalInfo(nameInputValue, jobInputValue);
 
   closePopup()
 }
 
-export { openPopup, closePopup, handleProfileFormSubmit, closeByEscape };
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault()
+
+  const avatarSrc = avatarInput.value;
+
+  profileAvatar.src = avatarSrc;
+
+  pathPostsAvatar(avatarSrc);
+
+  closePopup()
+}
+
+function renderLoading(isLoading) {
+  const btnsSave = document.querySelectorAll(validationConfig.submitButtonSelector);
+
+  btnsSave.forEach(btn => {
+    if (isLoading) {
+      btn.textContent = 'Сохранение...';
+      btn.classList.remove(validationConfig.inactiveButtonClass);
+    } else {
+      btn.textContent = 'Сохранить';
+      btn.classList.add(validationConfig.inactiveButtonClass);
+    }
+  })
+}
+
+export {
+  showEditBtn,
+  hiddenEditBtn,
+  openPopup,
+  closePopup,
+  handleProfileFormSubmit,
+  handleAvatarFormSubmit,
+  closeByEscape,
+  renderLoading
+};

@@ -2,7 +2,8 @@
   background-color: transparent;
   border: none;
 
-  min-width: 24px;
+  width: 22px;
+  height: 19px;
   line-height: 100%;
 
   background-image: url(../../../../images/heart.svg);

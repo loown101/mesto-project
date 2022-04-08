@@ -4,32 +4,32 @@
 
   max-width: 100%;
 
-  grid-template-areas: 
-  'avatar info btn-add'
-  'avatar subtitle btn-add';
+  grid-template-areas:
+    'avatar info btn-add'
+    'avatar subtitle btn-add';
 
-  grid-template-columns: repeat(auto-fit, 17% 66% 17%)
+  grid-template-columns: repeat(auto-fit, 14% 66% 17%)
 }
 
 .profile:nth-child(n) {
   margin-bottom: 50px;
-} 
+}
 
 @media (max-width: 1167px) {
   .profile {
-    grid-template-areas: 
-    'avatar' 
-    'info'
-    'subtitle'
-    'btn-add';
+    grid-template-areas:
+      'avatar'
+      'info'
+      'subtitle'
+      'btn-add';
     justify-content: center;
     justify-items: center;
-  
+
     grid-template-columns: 1fr;
   }
 
   .profile:nth-child(n) {
     margin-bottom: 34px;
-  } 
+  }
 
 }

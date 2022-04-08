@@ -1,0 +1,36 @@
+.profile__avatar-change {
+  display: none;
+
+  position: absolute;
+
+  width: 26px;
+  height: 26px;
+
+  top: 40%;
+  left: 45%;
+
+  margin: 0;
+  padding: 0;
+
+  border: none;
+  outline: none;
+
+  background-color: transparent;
+  background-image: url(../../../../images/change.svg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  z-index: 1;
+}
+
+.profile__avatar-change:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 1168px) {
+  .profile__avatar-change {
+    top: 40%;
+    left: 40%;
+  }
+}
