@@ -7,21 +7,27 @@ import {
 
 import { cardConfig } from './configs.js';
 import { openPopup } from './modal.js';
-import { deletePostsCard, putPostsLikeCard } from './api.js';
+import { deleteCard, getlikeCard } from './api.js';
 
 function like(event, likeShow, cardID) {
   const target = event.target;
 
+  let method = '';
+
   if (target.classList.contains(cardConfig.likeButtonClassActive)) {
-    putPostsLikeCard(cardID, 'DELETE');
-    likeShow.textContent = +likeShow.textContent - 1;
+    method = 'DELETE';
   } else {
-    putPostsLikeCard(cardID, 'PUT');
-    likeShow.textContent = +likeShow.textContent + 1;
+    method = 'PUT';
   }
 
-  target.classList.toggle(cardConfig.likeButtonClassActive);
-
+  getlikeCard(cardID, method)
+    .then((data) => {
+      target.classList.toggle(cardConfig.likeButtonClassActive);
+      likeShow.textContent = data.likes.length;
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    })
 }
 
 function del(event) {
@@ -68,8 +74,13 @@ function createCard
 
   if (myId === cardOwnerID) {
     deleteButton.addEventListener('click', function (event) {
-      del(event);
-      deletePostsCard(cardID);
+      deleteCard(cardID)
+        .then(() => {
+          del(event);
+        })
+        .catch((err) => {
+          console.log('Ошибка. Запрос не выполнен: ', err);
+        })
     })
   } else {
     deleteButton.remove();

@@ -11,6 +11,7 @@ import {
   editAvatarBtn,
   editAvatarBtnActive,
   profileForm,
+  profileAvatar,
   avatarForm,
   popupAvatar,
   nameInput,
@@ -26,10 +27,12 @@ import {
   closePopup,
   handleProfileFormSubmit,
   handleAvatarFormSubmit,
+  handlePlaceFormSubmit,
 } from './modal.js';
-import { popupConfig, validationConfig } from './configs.js';
+import { popupConfig } from './configs.js';
 import { enableValidation } from './validate.js';
-import { getPostsMe, postPostsCard } from './api.js'
+import { getUserInfo, getCards } from './api.js'
+import { addPrependCard } from './cards.js'
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -56,23 +59,13 @@ editButton.addEventListener('click', function () {
 profileForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  evt.submitter.setAttribute('disabled', 'disabled');
-  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
-
-  handleProfileFormSubmit(evt)
+  handleProfileFormSubmit(evt);
 });
 
 placeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  evt.submitter.setAttribute('disabled', 'disabled');
-  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
-
-  postPostsCard(placeLink.value, placeDescription.value);
-
-  closePopup()
-
-  placeForm.reset()
+  handlePlaceFormSubmit(evt, placeForm, placeLink.value, placeDescription.value);
 });
 
 editAvatarBtn.addEventListener('mouseover', () => {
@@ -90,11 +83,7 @@ editAvatarBtn.addEventListener('click', () => {
 avatarForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
-  evt.submitter.setAttribute('disabled', 'disabled');
-  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
-
-  handleAvatarFormSubmit(evt);
-  avatarForm.reset();
+  handleAvatarFormSubmit(evt, avatarForm);
 })
 
 enableValidation({
@@ -107,4 +96,25 @@ enableValidation({
   inputErrorClass: 'pop-up__profile-input_error',
 });
 
-getPostsMe();
+Promise.all([getUserInfo(), getCards()])
+  .then(([userData, cards]) => {
+    profileName.textContent = userData.name;
+    jobName.textContent = userData.about;
+    profileAvatar.src = userData.avatar;
+    for (let i = 0; i < cards.length; i++) {
+      const like = cards[i].likes;
+      const cardOwnerID = cards[i].owner._id;
+      const cardID = cards[i]._id;
+      const likesOwnerID = [];
+
+      like.forEach(element => {
+        likesOwnerID.push(element._id);
+      });
+
+      addPrependCard(cards[i].link, cards[i].name, like.length, userData._id, cardOwnerID, cardID, likesOwnerID);
+    }
+  })
+  .catch(err => {
+    console.log('Ошибка. Запрос не выполнен: ', err);
+  });
+

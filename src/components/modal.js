@@ -9,7 +9,8 @@ import {
 } from './data.js';
 
 import { popupConfig, validationConfig } from './configs.js';
-import { pathPostsPersonalInfo, pathPostsAvatar } from './api.js';
+import { addPrependCard } from './cards.js'
+import { editUserInfo, editAvatar, addCard } from './api.js';
 
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);
@@ -17,6 +18,11 @@ function showEditBtn(editImage) {
 
 function hiddenEditBtn(editImage) {
   editImage.classList.remove(popupConfig.popupAvatarActiveClass);
+}
+
+function disabledButton(evt) {
+  evt.submitter.setAttribute('disabled', 'disabled');
+  evt.submitter.classList.add(validationConfig.inactiveButtonClass);
 }
 
 function openPopup(element) {
@@ -44,47 +50,99 @@ function handleProfileFormSubmit(evt) {
   const nameInputValue = nameInput.value;
   const jobInputValue = jobInput.value;
 
-  profileName.textContent = nameInputValue;
-  jobName.textContent = jobInputValue;
+  renderLoading(true, evt);
 
-  pathPostsPersonalInfo(nameInputValue, jobInputValue);
+  editUserInfo(nameInputValue, jobInputValue)
+    .then(() => {
+      profileName.textContent = nameInputValue;
+      jobName.textContent = jobInputValue;
 
-  closePopup()
+      disabledButton(evt);
+      closePopup();
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    })
+    .finally(() => {
+      renderLoading(false, evt)
+    })
 }
 
-function handleAvatarFormSubmit(evt) {
+function handleAvatarFormSubmit(evt, avatarForm) {
   evt.preventDefault()
 
   const avatarSrc = avatarInput.value;
 
-  profileAvatar.src = avatarSrc;
+  renderLoading(true, evt);
 
-  pathPostsAvatar(avatarSrc);
+  editAvatar(avatarSrc)
+    .then(() => {
+      profileAvatar.src = avatarSrc;
 
-  closePopup()
+      disabledButton(evt);
+      closePopup();
+      avatarForm.reset();
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    })
+    .finally(() => {
+      renderLoading(false, evt)
+    })
 }
 
-function renderLoading(isLoading) {
-  const btnsSave = document.querySelectorAll(validationConfig.submitButtonSelector);
+function handlePlaceFormSubmit(evt, placeForm, placeLinkValue, placeDescriptionValue) {
 
-  btnsSave.forEach(btn => {
-    if (isLoading) {
-      btn.textContent = 'Сохранение...';
-      btn.classList.remove(validationConfig.inactiveButtonClass);
-    } else {
-      btn.textContent = 'Сохранить';
-      btn.classList.add(validationConfig.inactiveButtonClass);
-    }
-  })
+  renderLoading(true, evt);
+
+  addCard(placeLinkValue, placeDescriptionValue)
+    .then((data) => {
+      console.log(data)
+      const like = data.likes;
+      const cardOwnerID = data.owner._id;
+      const cardID = data._id;
+      const likesOwnerID = [];
+
+      like.forEach(element => {
+        likesOwnerID.push(element._id);
+      });
+
+      addPrependCard(placeLinkValue, placeDescriptionValue, like.length, cardOwnerID, cardOwnerID, cardID, likesOwnerID);
+
+      disabledButton(evt);
+      closePopup();
+      placeForm.reset();
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    })
+    .finally(() => {
+      renderLoading(false, evt)
+    })
+}
+
+function renderLoading(isLoading, evt) {
+  const btn = evt.submitter;
+
+  if (isLoading) {
+    btn.textContent = 'Сохранение...';
+    btn.classList.remove(validationConfig.inactiveButtonClass);
+  } else {
+    btn.textContent = 'Сохранить';
+    btn.classList.add(validationConfig.inactiveButtonClass);
+  }
+
 }
 
 export {
   showEditBtn,
   hiddenEditBtn,
+  disabledButton,
   openPopup,
   closePopup,
   handleProfileFormSubmit,
   handleAvatarFormSubmit,
+  handlePlaceFormSubmit,
   closeByEscape,
   renderLoading
 };
