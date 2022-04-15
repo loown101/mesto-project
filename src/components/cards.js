@@ -1,106 +1,115 @@
-import {
-  galleryList,
-  popupImage,
-  imageGallery,
-  figcaptionImageGallery,
-} from './data.js';
-
 import { cardConfig } from './configs.js';
-import { openPopup } from './modal.js';
-import { deleteCard, getlikeCard } from './api.js';
-
-function like(event, likeShow, cardID) {
-  const target = event.target;
-
-  let method = '';
-
-  if (target.classList.contains(cardConfig.likeButtonClassActive)) {
-    method = 'DELETE';
-  } else {
-    method = 'PUT';
+import { api } from './api.js';
+export default class Card {
+  constructor(data, selector, handleCardClick) {
+    this._selector = selector;
+    this._data = data;
+    this._handleCardClick = handleCardClick;
   }
 
-  getlikeCard(cardID, method)
-    .then((data) => {
-      target.classList.toggle(cardConfig.likeButtonClassActive);
-      likeShow.textContent = data.likes.length;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    })
-}
+  _getElement() {
+    const cardTemplate = document
+      .querySelector(this._selector)
+      .content
+      .querySelector(cardConfig.galleryItemSelector)
+      .cloneNode(true);
 
-function del(event) {
-  const target = event.target;
-
-  target.closest(cardConfig.galleryItemSelector).remove();
-}
-
-function createCard
-  (
-    placeLinkValue,
-    placeDescriptionValue,
-    likes,
-    myId,
-    cardOwnerID,
-    cardID,
-    likesOwnerID
-  ) {
-
-  const cardTemplate = document.querySelector(cardConfig.cardTempaleteID).content;
-  const cardElement = cardTemplate.querySelector(cardConfig.galleryItemSelector).cloneNode(true);
-
-  const image = cardElement.querySelector(cardConfig.galleryPicSelector);
-  const descriprionImage = cardElement.querySelector(cardConfig.galleryItemDescriptionSelector);
-
-  const likeButton = cardElement.querySelector(cardConfig.likeButtonSelector);
-  const deleteButton = cardElement.querySelector(cardConfig.deleteButtonSelector);
-
-  const likeShow = cardElement.querySelector(cardConfig.likeShowSelector);
-
-  image.src = `${placeLinkValue}`;
-  image.alt = `${placeDescriptionValue}`;
-  image.dataset.id = cardID;
-  descriprionImage.textContent = `${placeDescriptionValue}`;
-  likeShow.textContent = `${likes}`;
-
-  image.addEventListener('click', function () {
-    imageGallery.src = `${placeLinkValue}`;
-    imageGallery.alt = `${placeDescriptionValue}`;
-    figcaptionImageGallery.textContent = `${placeDescriptionValue}`;
-
-    openPopup(popupImage);
-  });
-
-  if (myId === cardOwnerID) {
-    deleteButton.addEventListener('click', function (event) {
-      deleteCard(cardID)
-        .then(() => {
-          del(event);
-        })
-        .catch((err) => {
-          console.log('Ошибка. Запрос не выполнен: ', err);
-        })
-    })
-  } else {
-    deleteButton.remove();
+    return cardTemplate;
   }
 
-  if (likesOwnerID.includes(myId)) {
-    likeButton.classList.add(cardConfig.likeButtonClassActive);
+  _setEventListeners() {
+    this._element
+      .querySelector(cardConfig.galleryPicSelector)
+      .addEventListener('click', () => {
+        this._handleCardClick();
+      });
+
+    this._element
+      .querySelector(cardConfig.deleteButtonSelector)
+      .addEventListener('click', (event) => {
+        api.deleteCard(this._data._id)
+          .then(() => {
+            this._deleteCard(event);
+          })
+          .catch((err) => {
+            console.log('Ошибка. Запрос не выполнен: ', err);
+          })
+      });
+
+
+    this._element
+      .querySelector(cardConfig.likeButtonSelector)
+      .addEventListener('click', this._toggleLikeBtn.bind(this))
   }
 
-  likeButton.addEventListener('click', function (event) {
-    like(event, likeShow, cardID)
-  })
+  _toggleLikeBtn(event) {
+    const target = event.target;
 
-  return cardElement;
-}
+    let method = '';
 
-function addPrependCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID) {
-  const cardElement = createCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID);
+    if (target.classList.contains(cardConfig.likeButtonClassActive)) {
+      method = 'DELETE';
+    } else {
+      method = 'PUT';
+    }
 
-  galleryList.prepend(cardElement);
-}
+    api.getLikeCard(this._data._id, method)
+      .then((data) => {
+        this._data.likes = data.likes;
 
-export { addPrependCard };
+        target.classList.toggle(cardConfig.likeButtonClassActive);
+        this._element.querySelector(cardConfig.likeShowSelector).textContent = data.likes.length;
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+  }
+
+  _deleteCard(event) {
+    const target = event.target;
+
+    target.closest(cardConfig.galleryItemSelector).remove();
+  }
+
+  generate(myId) {
+    this._element = this._getElement();
+    this._setEventListeners();
+
+    this._element.querySelector(cardConfig.galleryPicSelector).src = `${this._data.link}`;
+    this._element.querySelector(cardConfig.galleryPicSelector).alt = `${this._data.name}`;
+    this._element.querySelector(cardConfig.galleryPicSelector).dataset.id = this._data._id;
+    this._element.querySelector(cardConfig.galleryItemDescriptionSelector).textContent = `${this._data.name}`;
+    this._element.querySelector(cardConfig.likeShowSelector).textContent = `${this._data.likes.length}`;
+
+    const likesOwnerID = [];
+
+    this._data.likes.forEach(element => {
+      likesOwnerID.push(element._id);
+    });
+
+    if (likesOwnerID.includes(this._data.owner._id)) {
+      this._element
+        .querySelector(cardConfig.likeShowSelector)
+        .classList
+        .add(cardConfig.likeButtonClassActive);
+    }
+
+    if (myId !== this._data.owner._id) {
+      this._element
+        .querySelector(cardConfig.deleteButtonSelector)
+        .remove();
+    }
+
+    return this._element;
+  }
+};
+
+// в класс Section
+
+// function addPrependCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID) {
+//   const cardElement = createCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID);
+
+//   galleryList.prepend(cardElement);
+// }
+
+// export { addPrependCard };
