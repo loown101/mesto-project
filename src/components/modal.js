@@ -9,8 +9,7 @@ import {
 } from './data.js';
 
 import { popupConfig, validationConfig } from './configs.js';
-import { addPrependCard } from './cards.js'
-import { editUserInfo, editAvatar, addCard } from './api.js';
+import { api } from './api.js';
 
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);
@@ -52,7 +51,7 @@ function handleProfileFormSubmit(evt) {
 
   renderLoading(true, evt);
 
-  editUserInfo(nameInputValue, jobInputValue)
+  api.editUserInfo(nameInputValue, jobInputValue)
     .then(() => {
       profileName.textContent = nameInputValue;
       jobName.textContent = jobInputValue;
@@ -75,7 +74,7 @@ function handleAvatarFormSubmit(evt, avatarForm) {
 
   renderLoading(true, evt);
 
-  editAvatar(avatarSrc)
+  api.editAvatar(avatarSrc)
     .then(() => {
       profileAvatar.src = avatarSrc;
 
@@ -95,7 +94,7 @@ function handlePlaceFormSubmit(evt, placeForm, placeLinkValue, placeDescriptionV
 
   renderLoading(true, evt);
 
-  addCard(placeLinkValue, placeDescriptionValue)
+  api.addCard(placeLinkValue, placeDescriptionValue)
     .then((data) => {
       console.log(data)
       const like = data.likes;

@@ -19,6 +19,7 @@ import {
   placeForm,
   placeLink,
   placeDescription,
+  galleryList,
 } from './data.js';
 import {
   showEditBtn,
@@ -29,10 +30,10 @@ import {
   handleAvatarFormSubmit,
   handlePlaceFormSubmit,
 } from './modal.js';
-import { popupConfig } from './configs.js';
+import { popupConfig, cardConfig } from './configs.js';
 import { enableValidation } from './validate.js';
-import { getUserInfo, getCards } from './api.js'
-import { addPrependCard } from './cards.js'
+import { api } from './api.js';
+import Card from './cards.js'
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -96,25 +97,20 @@ enableValidation({
   inputErrorClass: 'pop-up__profile-input_error',
 });
 
-Promise.all([getUserInfo(), getCards()])
+Promise.all([api.getUserInfo(), api.getCards()])
   .then(([userData, cards]) => {
     profileName.textContent = userData.name;
     jobName.textContent = userData.about;
     profileAvatar.src = userData.avatar;
     for (let i = 0; i < cards.length; i++) {
-      const like = cards[i].likes;
-      const cardOwnerID = cards[i].owner._id;
-      const cardID = cards[i]._id;
-      const likesOwnerID = [];
-
-      like.forEach(element => {
-        likesOwnerID.push(element._id);
-      });
-
-      addPrependCard(cards[i].link, cards[i].name, like.length, userData._id, cardOwnerID, cardID, likesOwnerID);
+      const card = new Card(cards[i], cardConfig.cardTempaleteID, handleCardClick);
+      galleryList.append(card.generate(userData._id));
     }
   })
   .catch(err => {
     console.log('Ошибка. Запрос не выполнен: ', err);
   });
 
+function handleCardClick() {
+  console.log('asd')
+}
