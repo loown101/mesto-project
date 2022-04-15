@@ -30,10 +30,19 @@ import {
   handleAvatarFormSubmit,
   handlePlaceFormSubmit,
 } from './modal.js';
-import { popupConfig, cardConfig } from './configs.js';
-import { enableValidation } from './validate.js';
+import { popupConfig, cardConfig, validationConfig } from './configs.js';
+import FormValidate from './validate.js';
 import { api } from './api.js';
-import Card from './cards.js'
+import Card from './cards.js';
+
+const formProfile = new FormValidate(validationConfig, profileForm);
+formProfile.enableValidation();
+
+const formAvatar = new FormValidate(validationConfig, avatarForm);
+formAvatar.enableValidation();
+
+const formPlace = new FormValidate(validationConfig, placeForm);
+formPlace.enableValidation();
 
 popups.forEach((popup) => {
   popup.addEventListener('mousedown', (evt) => {
@@ -86,16 +95,6 @@ avatarForm.addEventListener('submit', function (evt) {
 
   handleAvatarFormSubmit(evt, avatarForm);
 })
-
-enableValidation({
-  formSelector: '.pop-up__forms',
-  inputSelector: '.pop-up__profile-input',
-
-  submitButtonSelector: '.pop-up__btn-save',
-  inactiveButtonClass: 'pop-up__btn-save_inactive',
-
-  inputErrorClass: 'pop-up__profile-input_error',
-});
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(([userData, cards]) => {
