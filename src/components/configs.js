@@ -1,3 +1,4 @@
+
 const validationConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
@@ -21,6 +22,8 @@ const popupConfig = {
   popupDescriptionImageSelector: '.pop-up__desctiption-image',
 
   popupAvatarActiveClass: 'profile__avatar-change_active',
+
+  popupProfileId: '#profile-forms',
 }
 
 const cardConfig = {

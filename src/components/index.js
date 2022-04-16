@@ -22,18 +22,22 @@ import {
   galleryList,
 } from './data.js';
 import {
+  Popup,
   showEditBtn,
   hiddenEditBtn,
-  openPopup,
-  closePopup,
+  disabledButton,
+  // openPopup,
+  // closePopup,
   handleProfileFormSubmit,
   handleAvatarFormSubmit,
   handlePlaceFormSubmit,
+  //closeByEscape,
+  renderLoading
 } from './Popup.js';
-import { popupConfig, cardConfig, validationConfig } from './configs.js';
+import { cardConfig, validationConfig } from './configs.js';
 import Api from './Api.js';
 import FormValidate from './FormValidate.js';
-import Card from './Cards.js';
+import Card from './Card.js';
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-8/",
@@ -53,16 +57,16 @@ formAvatar.enableValidation();
 const formPlace = new FormValidate(validationConfig, placeForm);
 formPlace.enableValidation();
 
-popups.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
-      closePopup(popup)
-    }
-    if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
-      closePopup(popup)
-    }
-  })
-})
+// popups.forEach((popup) => {
+//   popup.addEventListener('mousedown', (evt) => {
+//     if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
+//       closePopup(popup)
+//     }
+//     if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
+//       closePopup(popup)
+//     }
+//   })
+// })
 
 addButton.addEventListener('click', function () {
   openPopup(popupPlace)
