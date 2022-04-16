@@ -11,6 +11,44 @@ import {
 import { popupConfig, validationConfig } from './configs.js';
 import { api } from './index.js';
 
+export default class Popup {
+  constructor(selector) {
+    this._selector = document.querySelector(selector);
+  }
+
+  _handleEscClose() {
+    if (evt.key === 'Escape') {
+      const openedPopup = document.querySelector(popupConfig.popupOpenClass)
+      this.close(openedPopup)
+    }
+  }
+
+  open() {
+    this._selector.classList.add(popupConfig.popupOpenClass);
+    document.addEventListener('keydown', this._handleEscClose);
+  }
+
+  close() {
+    this._selector.classList.remove(popupConfig.popupOpenClass);
+    document.removeEventListener('keydown', this._handleEscClose);
+  }
+
+  setEventListeners() {
+    this._selector.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
+        this.close()
+      }
+      if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
+        this.close()
+      }
+    })
+  }
+}
+
+const profilePopup = new Popup(popupConfig.popupProfileId);
+profilePopup.open();
+profilePopup.close();
+
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);
 }
@@ -24,24 +62,24 @@ function disabledButton(evt) {
   evt.submitter.classList.add(validationConfig.inactiveButtonClass);
 }
 
-function openPopup(element) {
-  element.classList.add(popupConfig.popupOpenClass);
-  document.addEventListener('keydown', closeByEscape);
-}
+// function openPopup(element) {
+//   element.classList.add(popupConfig.popupOpenClass);
+//   document.addEventListener('keydown', closeByEscape);
+// }
 
-function closePopup() {
-  popups.forEach(element => {
-    element.classList.remove(popupConfig.popupOpenClass);
-    document.removeEventListener('keydown', closeByEscape);
-  });
-}
+// function closePopup() {
+//   popups.forEach(element => {
+//     element.classList.remove(popupConfig.popupOpenClass);
+//     document.removeEventListener('keydown', closeByEscape);
+//   });
+// }
 
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector(popupConfig.popupOpenClass)
-    closePopup(openedPopup)
-  }
-}
+// function closeByEscape(evt) {
+//   if (evt.key === 'Escape') {
+//     const openedPopup = document.querySelector(popupConfig.popupOpenClass)
+//     closePopup(openedPopup)
+//   }
+// }
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -137,11 +175,11 @@ export {
   showEditBtn,
   hiddenEditBtn,
   disabledButton,
-  openPopup,
-  closePopup,
+  // openPopup,
+  // closePopup,
   handleProfileFormSubmit,
   handleAvatarFormSubmit,
   handlePlaceFormSubmit,
-  closeByEscape,
+  //closeByEscape,
   renderLoading
 };
