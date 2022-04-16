@@ -29,11 +29,20 @@ import {
   handleProfileFormSubmit,
   handleAvatarFormSubmit,
   handlePlaceFormSubmit,
-} from './modal.js';
+} from './Popup.js';
 import { popupConfig, cardConfig, validationConfig } from './configs.js';
-import FormValidate from './validate.js';
-import { api } from './api.js';
-import Card from './cards.js';
+import Api from './Api.js';
+import FormValidate from './FormValidate.js';
+import Card from './Cards.js';
+
+export const api = new Api({
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-8/",
+  headers: {
+    Authorization: "ea0f5ff1-1f3b-4f72-b28c-164c5b7a6982",
+    "Content-type": "application/json",
+  },
+});
+
 
 const formProfile = new FormValidate(validationConfig, profileForm);
 formProfile.enableValidation();
@@ -101,10 +110,11 @@ Promise.all([api.getUserInfo(), api.getCards()])
     profileName.textContent = userData.name;
     jobName.textContent = userData.about;
     profileAvatar.src = userData.avatar;
-    for (let i = 0; i < cards.length; i++) {
-      const card = new Card(cards[i], cardConfig.cardTempaleteID, handleCardClick);
+
+    cards.forEach(item => {
+      const card = new Card(item, cardConfig.cardTempaleteID, handleCardClick);
       galleryList.append(card.generate(userData._id));
-    }
+    });
   })
   .catch(err => {
     console.log('Ошибка. Запрос не выполнен: ', err);

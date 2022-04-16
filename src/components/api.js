@@ -2,9 +2,10 @@ export default class Api {
   constructor(data) {
     this._headers = data.headers;
     this._baseUrl = data.baseUrl;
-    this._checkResponse = function (res) {
-      return res.ok ? res.json() : Promise.reject(res);
-    };
+  }
+
+  _checkResponse(res) {
+    return res.ok ? res.json() : Promise.reject(res);
   }
 
   getUserInfo() {
@@ -72,12 +73,4 @@ export default class Api {
       .then(this._checkResponse);
   }
 }
-
-export const api = new Api({
-  baseUrl: "https://nomoreparties.co/v1/plus-cohort-8/",
-  headers: {
-    Authorization: "ea0f5ff1-1f3b-4f72-b28c-164c5b7a6982",
-    "Content-type": "application/json",
-  },
-});
 
