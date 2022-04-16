@@ -9,7 +9,7 @@ import {
 } from './data.js';
 
 import { popupConfig, validationConfig } from './configs.js';
-import { api } from './api.js';
+import { api } from './index.js';
 
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);

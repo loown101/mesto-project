@@ -1,5 +1,5 @@
 import { cardConfig } from './configs.js';
-import { api } from './api.js';
+import { api } from './index.js';
 export default class Card {
   constructor(data, selector, handleCardClick) {
     this._selector = selector;
@@ -103,13 +103,3 @@ export default class Card {
     return this._element;
   }
 };
-
-// в класс Section
-
-// function addPrependCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID) {
-//   const cardElement = createCard(placeLinkValue, placeDescriptionValue, likes, myId, cardOwnerID, cardID, likesOwnerID);
-
-//   galleryList.prepend(cardElement);
-// }
-
-// export { addPrependCard };
