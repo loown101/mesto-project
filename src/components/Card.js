@@ -1,7 +1,7 @@
 import { cardConfig } from './configs.js';
 import { api } from './index.js';
 export default class Card {
-  constructor(data, selector, handleCardClick) {
+  constructor(data, selector, {handleCardClick}) {
     this._selector = selector;
     this._data = data;
     this._handleCardClick = handleCardClick;
@@ -21,7 +21,7 @@ export default class Card {
     this._element
       .querySelector(cardConfig.galleryPicSelector)
       .addEventListener('click', () => {
-        this._handleCardClick();
+        this._handleCardClick(this._data);
       });
 
     this._element
