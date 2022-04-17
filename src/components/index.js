@@ -13,7 +13,6 @@ import {
   nameInput,
   jobInput,
   placeForm,
-  galleryList,
 } from './data.js';
 import { cardConfig, validationConfig, popupConfig } from './configs.js';
 import Api from './Api.js';
@@ -32,7 +31,7 @@ export const api = new Api({
   },
 });
 
-const userInfo = new UserInfo({nameElement: profileName, aboutElement: jobName, avatarElement: profileAvatar});
+const userInfo = new UserInfo({ nameElement: profileName, aboutElement: jobName, avatarElement: profileAvatar });
 
 const formProfile = new FormValidate(validationConfig, profileForm);
 formProfile.enableValidation();
@@ -94,16 +93,18 @@ const placePopup = new PopupWithForm({
         const cardList = new Section({
           items: [res],
           renderer: (item) => {
-            const card = new Card(item, cardConfig.cardTempaleteID, 
-            {handleCardClick : (item) => {
-              imagePopup.open(item);
-              imagePopup.setEventListeners();
-            }});
+            const card = new Card(item, cardConfig.cardTempaleteID,
+              {
+                handleCardClick: (item) => {
+                  imagePopup.open(item);
+                  imagePopup.setEventListeners();
+                }
+              });
             const cardElement = card.generate(res.owner._id);
             cardList.addItem(cardElement, true);
           }
         }, cardConfig.galleryList)
-    
+
         cardList.renderItems()
         placePopup.disabledButton(evt);
         placePopup.close();
@@ -122,7 +123,7 @@ addButton.addEventListener('click', function () {
 });
 
 editButton.addEventListener('click', function () {
-  userInfo.getUserInfo({name: nameInput, about: jobInput});
+  userInfo.getUserInfo({ name: nameInput, about: jobInput });
 
   profilePopup.open();
 });
@@ -160,11 +161,13 @@ Promise.all([api.getUserInfo(), api.getCards()])
     const cardList = new Section({
       items: cards,
       renderer: (item) => {
-        const card = new Card(item, cardConfig.cardTempaleteID, 
-        {handleCardClick : (item) => {
-          imagePopup.open(item);
-          imagePopup.setEventListeners();
-        }});
+        const card = new Card(item, cardConfig.cardTempaleteID,
+          {
+            handleCardClick: (item) => {
+              imagePopup.open(item);
+              imagePopup.setEventListeners();
+            }
+          });
         const cardElement = card.generate(userData._id);
         cardList.addItem(cardElement);
       }
