@@ -1,9 +1,6 @@
 import '../pages/index.css';
 
 import {
-  popups,
-  popupProfile,
-  popupPlace,
   editButton,
   addButton,
   profileName,
@@ -13,31 +10,17 @@ import {
   profileForm,
   profileAvatar,
   avatarForm,
-  popupAvatar,
   nameInput,
   jobInput,
   placeForm,
-  placeLink,
-  placeDescription,
   galleryList,
 } from './data.js';
-import {
-  Popup,
-  showEditBtn,
-  hiddenEditBtn,
-  disabledButton,
-  // openPopup,
-  // closePopup,
-  handleProfileFormSubmit,
-  handleAvatarFormSubmit,
-  handlePlaceFormSubmit,
-  //closeByEscape,
-  renderLoading
-} from './Popup.js';
-import { cardConfig, validationConfig } from './configs.js';
+import { cardConfig, validationConfig, popupConfig } from './configs.js';
 import Api from './Api.js';
 import FormValidate from './FormValidate.js';
 import Card from './Card.js';
+import PopupWithForm from './PopupWithForm.js';
+import Section from './Section.js'
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-8/",
@@ -46,7 +29,6 @@ export const api = new Api({
     "Content-type": "application/json",
   },
 });
-
 
 const formProfile = new FormValidate(validationConfig, profileForm);
 formProfile.enableValidation();
@@ -57,38 +39,82 @@ formAvatar.enableValidation();
 const formPlace = new FormValidate(validationConfig, placeForm);
 formPlace.enableValidation();
 
-// popups.forEach((popup) => {
-//   popup.addEventListener('mousedown', (evt) => {
-//     if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
-//       closePopup(popup)
-//     }
-//     if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
-//       closePopup(popup)
-//     }
-//   })
-// })
+const profilePopup = new PopupWithForm({
+  selector: popupConfig.popupProfileSelector,
+  callback: (evt, data) => {
+    profilePopup.renderLoading(true, evt);
+    api.editUserInfo(data['profile-name'], data['profile-description'])
+      .then(() => {
+        profileName.textContent = data['profile-name'];
+        jobName.textContent = data['profile-description'];
+        profilePopup.disabledButton(evt);
+        profilePopup.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        profilePopup.renderLoading(false, evt)
+      })
+  }
+});
+
+const avatarPopup = new PopupWithForm({
+  selector: popupConfig.popupAvatarSelector,
+  callback: (evt, data) => {
+    avatarPopup.renderLoading(true, evt);
+    api.editAvatar(data['profile-avatar'])
+      .then(() => {
+        profileAvatar.src = data['profile-avatar'];
+
+        avatarPopup.disabledButton(evt);
+        avatarPopup.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        avatarPopup.renderLoading(false, evt)
+      })
+  }
+});
+
+const placePopup = new PopupWithForm({
+  selector: popupConfig.popupPlaceSelector,
+  callback: (evt, data) => {
+    placePopup.renderLoading(true, evt);
+    api.addCard(data['place-name'], data['place-description'])
+      .then((res) => {
+        const card = new Card(res, cardConfig.cardTempaleteID, handleCardClick)
+        galleryList.prepend(card.generate(res.owner._id));
+
+        placePopup.disabledButton(evt);
+        placePopup.close();
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
+      .finally(() => {
+        placePopup.renderLoading(false, evt)
+      })
+  }
+});
 
 addButton.addEventListener('click', function () {
-  openPopup(popupPlace)
+  placePopup.open();
 });
 
 editButton.addEventListener('click', function () {
   nameInput.value = profileName.textContent;
   jobInput.value = jobName.textContent;
 
-  openPopup(popupProfile)
-});
-
-profileForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  handleProfileFormSubmit(evt);
+  profilePopup.open();
 });
 
 placeForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  handlePlaceFormSubmit(evt, placeForm, placeLink.value, placeDescription.value);
+  placePopup.open();
 });
 
 editAvatarBtn.addEventListener('mouseover', () => {
@@ -100,25 +126,45 @@ editAvatarBtn.addEventListener('mouseout', () => {
 });
 
 editAvatarBtn.addEventListener('click', () => {
-  openPopup(popupAvatar);
+  avatarPopup.open();
 });
 
 avatarForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
-  handleAvatarFormSubmit(evt, avatarForm);
+  avatarPopup.open();
 })
+
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(([userData, cards]) => {
+    // const profile = new Section({
+    // items: userData,
+    // renderer: (item) => {
+    // const user = new UserInfo(селекторы)
+    // user.setUserInfo();
+    // profileName.textContent = userData.name;
+    // jobName.textContent = userData.about;
+    // profileAvatar.src = userData.avatar;
+    // }
+    // }, '.profile') {
+
+    // }
     profileName.textContent = userData.name;
     jobName.textContent = userData.about;
     profileAvatar.src = userData.avatar;
 
-    cards.forEach(item => {
-      const card = new Card(item, cardConfig.cardTempaleteID, handleCardClick);
-      galleryList.append(card.generate(userData._id));
-    });
+    const cardList = new Section({
+      items: cards,
+      renderer: (item) => {
+        const card = new Card(item, cardConfig.cardTempaleteID, handleCardClick);
+        const cardElement =
+          card.generate(userData._id);
+        cardList.addItem(cardElement);
+      }
+    }, cardConfig.galleryList)
+
+    cardList.renderItems()
   })
   .catch(err => {
     console.log('Ошибка. Запрос не выполнен: ', err);
@@ -126,4 +172,12 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
 function handleCardClick() {
   console.log('asd')
+}
+
+function showEditBtn(editImage) {
+  editImage.classList.add(popupConfig.popupAvatarActiveClass);
+}
+
+function hiddenEditBtn(editImage) {
+  editImage.classList.remove(popupConfig.popupAvatarActiveClass);
 }
