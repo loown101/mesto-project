@@ -1,4 +1,3 @@
-
 const validationConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
@@ -23,7 +22,9 @@ const popupConfig = {
 
   popupAvatarActiveClass: 'profile__avatar-change_active',
 
-  popupProfileId: '#profile-forms',
+  popupProfileSelector: '.pop-up__profile',
+  popupAvatarSelector: '.pop-up__avatar',
+  popupPlaceSelector: '.pop-up__place',
 }
 
 const cardConfig = {
@@ -40,6 +41,8 @@ const cardConfig = {
   galleryItemSelector: '.gallery__item',
   galleryPicSelector: '.gallery__pic',
   galleryItemDescriptionSelector: '.gallery__item-descriprion',
+
+  galleryList: '.gallery__list'
 }
 
 export { popupConfig, cardConfig, validationConfig };
