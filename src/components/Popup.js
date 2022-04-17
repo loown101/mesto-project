@@ -1,38 +1,32 @@
-import {
-  popups,
-  profileAvatar,
-  profileName,
-  jobName,
-  nameInput,
-  jobInput,
-  avatarInput,
-} from './data.js';
-
-import { popupConfig, validationConfig } from './configs.js';
+import { popupConfig, validationConfig } from "./configs.js";
 export default class Popup {
   constructor(selector) {
     this._selector = document.querySelector(selector);
   }
 
   _handleEscClose(evt) {
-    if (evt.key === 'Escape') {
-      const openedPopup = document.querySelector(popupConfig.popupOpenClass)
-      this.close(openedPopup)
+    if (evt.key === "Escape") {
+      const openedPopup = document.querySelector(popupConfig.popupOpenClass);
+      this.close(openedPopup);
     }
   }
 
   open() {
     this._selector.classList.add(popupConfig.popupOpenClass);
-    document.addEventListener('keydown', this._handleEscClose());
+    document.addEventListener("keydown", (evt) => {
+      this._handleEscClose(evt);
+    });
   }
 
   close() {
     this._selector.classList.remove(popupConfig.popupOpenClass);
-    document.removeEventListener('keydown', this._handleEscClose());
+    document.removeEventListener("keydown", (evt) => {
+      this._handleEscClose(evt);
+    });
   }
 
   disabledButton(evt) {
-    evt.submitter.setAttribute('disabled', 'disabled');
+    evt.submitter.setAttribute("disabled", "disabled");
     evt.submitter.classList.add(validationConfig.inactiveButtonClass);
   }
 
@@ -40,23 +34,22 @@ export default class Popup {
     const btn = evt.submitter;
 
     if (isLoading) {
-      btn.textContent = 'Сохранение...';
+      btn.textContent = "Сохранение...";
       btn.classList.remove(validationConfig.inactiveButtonClass);
     } else {
-      btn.textContent = 'Сохранить';
+      btn.textContent = "Сохранить";
       btn.classList.add(validationConfig.inactiveButtonClass);
     }
   }
 
   setEventListeners() {
-    this._selector.addEventListener('mousedown', (evt) => {
+    this._selector.addEventListener("mousedown", (evt) => {
       if (evt.target.classList.contains(popupConfig.popupOpenClass)) {
-        this.close()
+        this.close();
       }
       if (evt.target.classList.contains(popupConfig.popupButtonCloseClass)) {
-        this.close()
+        this.close();
       }
-    })
+    });
   }
-
 }

@@ -20,7 +20,9 @@ import Api from './Api.js';
 import FormValidate from './FormValidate.js';
 import Card from './Card.js';
 import PopupWithForm from './PopupWithForm.js';
+import PopupWithImage from './PopupWithImage';
 import Section from './Section.js'
+import UserInfo from './UserInfo.js';
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-8/",
@@ -29,6 +31,8 @@ export const api = new Api({
     "Content-type": "application/json",
   },
 });
+
+const userInfo = new UserInfo({nameElement: profileName, aboutElement: jobName, avatarElement: profileAvatar});
 
 const formProfile = new FormValidate(validationConfig, profileForm);
 formProfile.enableValidation();
@@ -39,14 +43,16 @@ formAvatar.enableValidation();
 const formPlace = new FormValidate(validationConfig, placeForm);
 formPlace.enableValidation();
 
+
+
 const profilePopup = new PopupWithForm({
   selector: popupConfig.popupProfileSelector,
   callback: (evt, data) => {
     profilePopup.renderLoading(true, evt);
     api.editUserInfo(data['profile-name'], data['profile-description'])
-      .then(() => {
-        profileName.textContent = data['profile-name'];
-        jobName.textContent = data['profile-description'];
+      .then((res) => {
+        userInfo.setUserInfo(res);
+
         profilePopup.disabledButton(evt);
         profilePopup.close();
       })
@@ -64,8 +70,8 @@ const avatarPopup = new PopupWithForm({
   callback: (evt, data) => {
     avatarPopup.renderLoading(true, evt);
     api.editAvatar(data['profile-avatar'])
-      .then(() => {
-        profileAvatar.src = data['profile-avatar'];
+      .then((res) => {
+        userInfo.setUserInfo(res);
 
         avatarPopup.disabledButton(evt);
         avatarPopup.close();
@@ -85,9 +91,20 @@ const placePopup = new PopupWithForm({
     placePopup.renderLoading(true, evt);
     api.addCard(data['place-name'], data['place-description'])
       .then((res) => {
-        const card = new Card(res, cardConfig.cardTempaleteID, handleCardClick)
-        galleryList.prepend(card.generate(res.owner._id));
-
+        const cardList = new Section({
+          items: [res],
+          renderer: (item) => {
+            const card = new Card(item, cardConfig.cardTempaleteID, 
+            {handleCardClick : (item) => {
+              imagePopup.open(item);
+              imagePopup.setEventListeners();
+            }});
+            const cardElement = card.generate(res.owner._id);
+            cardList.addItem(cardElement, true);
+          }
+        }, cardConfig.galleryList)
+    
+        cardList.renderItems()
         placePopup.disabledButton(evt);
         placePopup.close();
       })
@@ -105,8 +122,7 @@ addButton.addEventListener('click', function () {
 });
 
 editButton.addEventListener('click', function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = jobName.textContent;
+  userInfo.getUserInfo({name: nameInput, about: jobInput});
 
   profilePopup.open();
 });
@@ -138,28 +154,18 @@ avatarForm.addEventListener('submit', function (evt) {
 
 Promise.all([api.getUserInfo(), api.getCards()])
   .then(([userData, cards]) => {
-    // const profile = new Section({
-    // items: userData,
-    // renderer: (item) => {
-    // const user = new UserInfo(селекторы)
-    // user.setUserInfo();
-    // profileName.textContent = userData.name;
-    // jobName.textContent = userData.about;
-    // profileAvatar.src = userData.avatar;
-    // }
-    // }, '.profile') {
 
-    // }
-    profileName.textContent = userData.name;
-    jobName.textContent = userData.about;
-    profileAvatar.src = userData.avatar;
+    userInfo.setUserInfo(userData);
 
     const cardList = new Section({
       items: cards,
       renderer: (item) => {
-        const card = new Card(item, cardConfig.cardTempaleteID, handleCardClick);
-        const cardElement =
-          card.generate(userData._id);
+        const card = new Card(item, cardConfig.cardTempaleteID, 
+        {handleCardClick : (item) => {
+          imagePopup.open(item);
+          imagePopup.setEventListeners();
+        }});
+        const cardElement = card.generate(userData._id);
         cardList.addItem(cardElement);
       }
     }, cardConfig.galleryList)
@@ -170,9 +176,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
     console.log('Ошибка. Запрос не выполнен: ', err);
   });
 
-function handleCardClick() {
-  console.log('asd')
-}
+const imagePopup = new PopupWithImage(popupConfig.popupImageSelector);
 
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);
