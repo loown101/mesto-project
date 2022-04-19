@@ -5,27 +5,27 @@ export default class FormValidate {
   }
 
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
 
     inputElement.classList.add(this._data.inputErrorClass);
-    errorElement.textContent = errorMessage;
+    this._errorElement.textContent = errorMessage;
   }
 
   _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
 
     inputElement.classList.remove(this._data.inputErrorClass);
-    errorElement.textContent = "";
+    this._errorElement.textContent = "";
   }
 
   _checkInputValidity(inputElement) {
+    this._hideInputError(inputElement);
+
     if (!inputElement.validity.valid) {
       this._showInputError(
         inputElement,
         inputElement.validationMessage,
       );
-    } else {
-      this._hideInputError(inputElement);
     }
   }
 
@@ -40,6 +40,8 @@ export default class FormValidate {
     this._toggleButtonState(inputList, buttonSubmit);
 
     inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputList, buttonSubmit);

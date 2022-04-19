@@ -1,17 +1,17 @@
-import { cardConfig } from './configs.js';
-import { api } from './index.js';
+import { api } from '../pages/index.js'; // в будущем удалить
 export default class Card {
-  constructor(data, selector, {handleCardClick}) {
+  constructor(data, selector, config, { handleCardClick }) {
     this._selector = selector;
     this._data = data;
     this._handleCardClick = handleCardClick;
+    this._config = config;
   }
 
   _getElement() {
     const cardTemplate = document
       .querySelector(this._selector)
       .content
-      .querySelector(cardConfig.galleryItemSelector)
+      .querySelector(this._config.galleryItemSelector)
       .cloneNode(true);
 
     return cardTemplate;
@@ -19,13 +19,13 @@ export default class Card {
 
   _setEventListeners() {
     this._element
-      .querySelector(cardConfig.galleryPicSelector)
+      .querySelector(this._config.galleryPicSelector)
       .addEventListener('click', () => {
         this._handleCardClick(this._data);
       });
 
     this._element
-      .querySelector(cardConfig.deleteButtonSelector)
+      .querySelector(this._config.deleteButtonSelector)
       .addEventListener('click', (event) => {
         api.deleteCard(this._data._id)
           .then(() => {
@@ -38,7 +38,7 @@ export default class Card {
 
 
     this._element
-      .querySelector(cardConfig.likeButtonSelector)
+      .querySelector(this._config.likeButtonSelector)
       .addEventListener('click', this._toggleLikeBtn.bind(this))
   }
 
@@ -47,7 +47,7 @@ export default class Card {
 
     let method = '';
 
-    if (target.classList.contains(cardConfig.likeButtonClassActive)) {
+    if (target.classList.contains(this._config.likeButtonClassActive)) {
       method = 'DELETE';
     } else {
       method = 'PUT';
@@ -57,8 +57,8 @@ export default class Card {
       .then((data) => {
         this._data.likes = data.likes;
 
-        target.classList.toggle(cardConfig.likeButtonClassActive);
-        this._element.querySelector(cardConfig.likeShowSelector).textContent = data.likes.length;
+        target.classList.toggle(this._config.likeButtonClassActive);
+        this._element.querySelector(this._config.likeShowSelector).textContent = data.likes.length;
       })
       .catch((err) => {
         console.log('Ошибка. Запрос не выполнен: ', err);
@@ -68,18 +68,18 @@ export default class Card {
   _deleteCard(event) {
     const target = event.target;
 
-    target.closest(cardConfig.galleryItemSelector).remove();
+    target.closest(this._config.galleryItemSelector).remove();
   }
 
   generate(myId) {
     this._element = this._getElement();
     this._setEventListeners();
 
-    this._element.querySelector(cardConfig.galleryPicSelector).src = `${this._data.link}`;
-    this._element.querySelector(cardConfig.galleryPicSelector).alt = `${this._data.name}`;
-    this._element.querySelector(cardConfig.galleryPicSelector).dataset.id = this._data._id;
-    this._element.querySelector(cardConfig.galleryItemDescriptionSelector).textContent = `${this._data.name}`;
-    this._element.querySelector(cardConfig.likeShowSelector).textContent = `${this._data.likes.length}`;
+    this._element.querySelector(this._config.galleryPicSelector).src = `${this._data.link}`;
+    this._element.querySelector(this._config.galleryPicSelector).alt = `${this._data.name}`;
+    this._element.querySelector(this._config.galleryPicSelector).dataset.id = this._data._id;
+    this._element.querySelector(this._config.galleryItemDescriptionSelector).textContent = `${this._data.name}`;
+    this._element.querySelector(this._config.likeShowSelector).textContent = `${this._data.likes.length}`;
 
     const likesOwnerID = [];
 
@@ -89,14 +89,14 @@ export default class Card {
 
     if (likesOwnerID.includes(this._data.owner._id)) {
       this._element
-        .querySelector(cardConfig.likeShowSelector)
+        .querySelector(this._config.likeButtonSelector)
         .classList
-        .add(cardConfig.likeButtonClassActive);
+        .add(this._config.likeButtonClassActive);
     }
 
     if (myId !== this._data.owner._id) {
       this._element
-        .querySelector(cardConfig.deleteButtonSelector)
+        .querySelector(this._config.deleteButtonSelector)
         .remove();
     }
 

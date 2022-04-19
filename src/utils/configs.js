@@ -1,4 +1,4 @@
-const validationConfig = {
+const popupConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
 
@@ -6,9 +6,7 @@ const validationConfig = {
   inactiveButtonClass: 'pop-up__btn-save_inactive',
 
   inputErrorClass: 'pop-up__profile-input_error',
-}
 
-const popupConfig = {
   popupFormSelector: '.pop-up__forms',
 
   popupOpenClass: 'pop-up_opened',
@@ -27,8 +25,8 @@ const popupConfig = {
   popupPlaceSelector: '.pop-up__place',
 }
 
-const cardConfig = {
-  cardTempaleteID: '#card',
+const galleryConfig = {
+  cardTempaleteSelector: '#card',
 
   likeButtonClass: 'gallery__button-like',
   likeButtonClassActive: 'gallery__button-like_active',
@@ -45,4 +43,4 @@ const cardConfig = {
   galleryList: '.gallery__list'
 }
 
-export { popupConfig, cardConfig, validationConfig };
+export { popupConfig, galleryConfig };

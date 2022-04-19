@@ -1,4 +1,4 @@
-import { api } from './index.js';
+import { api } from '../pages/index.js'; // удалить в будущем
 export default class UserInfo {
   constructor({ nameElement, aboutElement, avatarElement }) {
     this._name = nameElement;
@@ -6,15 +6,15 @@ export default class UserInfo {
     this._avatar = avatarElement;
   }
 
-  getUserInfo(data) {
+  getUserInfo(data) { // убрать связку
     api.getUserInfo()
-    .then((res) => {
+      .then((res) => {
         data.name.value = res.name;
         data.about.value = res.about;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    })
+      })
+      .catch((err) => {
+        console.log('Ошибка. Запрос не выполнен: ', err);
+      })
   }
 
   setUserInfo(config) {

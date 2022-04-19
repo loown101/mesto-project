@@ -1,37 +1,29 @@
-import { popupConfig, validationConfig } from './configs.js';
 import Popup from './Popup.js';
 export default class PopupWithForm extends Popup {
-  constructor({ selector, callback }) {
-    super(selector);
+  constructor({ selector, config, callback }) {
+    super(selector, config);
     this._callback = callback;
-    this._form = this._selector.querySelector(popupConfig.popupFormSelector);
-    this.setEventListeners();
+    this._form = this._selector.querySelector(config.popupFormSelector);
+    this._objInput = {};
   }
 
   _getInputValues() {
-    const objInput = {};
-
     [...this._form].forEach(element => {
-      objInput[element.name] = element.value;
+      this._objInput[element.name] = element.value;
     });
 
-    return objInput;
-  }
-
-  disabledButton(evt) {
-    evt.submitter.setAttribute('disabled', 'disabled');
-    evt.submitter.classList.add(validationConfig.inactiveButtonClass);
+    return this._objInput;
   }
 
   renderLoading(isLoading, evt) {
-    const btn = evt.submitter;
+    this._button = evt.submitter;
 
     if (isLoading) {
-      btn.textContent = 'Сохранение...';
-      btn.classList.remove(validationConfig.inactiveButtonClass);
+      this._button.textContent = 'Сохранение...';
+      this._button.classList.remove(this._config.inactiveButtonClass);
     } else {
-      btn.textContent = 'Сохранить';
-      btn.classList.add(validationConfig.inactiveButtonClass);
+      this._button.textContent = 'Сохранить';
+      this._button.classList.add(this._config.inactiveButtonClass);
     }
   }
 
