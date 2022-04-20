@@ -1,15 +1,14 @@
 import { api } from '../pages/index.js'; // в будущем удалить
 export default class Card {
   constructor(data, selector, config, { handleCardClick }) {
-    this._selector = selector;
+    this._container = document.querySelector(selector);
     this._data = data;
     this._handleCardClick = handleCardClick;
     this._config = config;
   }
 
   _getElement() {
-    const cardTemplate = document
-      .querySelector(this._selector)
+    const cardTemplate = this._container
       .content
       .querySelector(this._config.galleryItemSelector)
       .cloneNode(true);
@@ -18,15 +17,11 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(this._config.galleryPicSelector)
-      .addEventListener('click', () => {
+    this._element.querySelector(this._config.galleryPicSelector).addEventListener('click', () => {
         this._handleCardClick(this._data);
       });
 
-    this._element
-      .querySelector(this._config.deleteButtonSelector)
-      .addEventListener('click', (event) => {
+    this._element.querySelector(this._config.deleteButtonSelector).addEventListener('click', (event) => {
         api.deleteCard(this._data._id)
           .then(() => {
             this._deleteCard(event);
@@ -73,12 +68,14 @@ export default class Card {
 
   generate(myId) {
     this._element = this._getElement();
+    this._gallery = this._element.querySelector(this._config.galleryPicSelector);
+    
     this._setEventListeners();
-
-    this._element.querySelector(this._config.galleryPicSelector).src = `${this._data.link}`;
-    this._element.querySelector(this._config.galleryPicSelector).alt = `${this._data.name}`;
-    this._element.querySelector(this._config.galleryPicSelector).dataset.id = this._data._id;
-    this._element.querySelector(this._config.galleryItemDescriptionSelector).textContent = `${this._data.name}`;
+    
+    this._gallery.src = `${this._data.link}`;
+    this._gallery.alt = `${this._data.name}`;
+    this._gallery.dataset.id = this._data._id;
+    this._element.querySelector(this._config.galleryItemDescriptionSelector).textContent = `${this._data.name}`;//подумать сделать переменные отдельно
     this._element.querySelector(this._config.likeShowSelector).textContent = `${this._data.likes.length}`;
 
     const likesOwnerID = [];

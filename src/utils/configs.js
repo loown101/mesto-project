@@ -1,4 +1,4 @@
-const popupConfig = {
+const validateConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
 
@@ -6,7 +6,9 @@ const popupConfig = {
   inactiveButtonClass: 'pop-up__btn-save_inactive',
 
   inputErrorClass: 'pop-up__profile-input_error',
+}
 
+const popupConfig = {
   popupFormSelector: '.pop-up__forms',
 
   popupOpenClass: 'pop-up_opened',
@@ -43,4 +45,4 @@ const galleryConfig = {
   galleryList: '.gallery__list'
 }
 
-export { popupConfig, galleryConfig };
+export { popupConfig, galleryConfig, validateConfig };

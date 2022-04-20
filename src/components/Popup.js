@@ -1,59 +1,37 @@
 export default class Popup {
   constructor(selector, config) {
-    this._selector = document.querySelector(selector);
+    this._container = document.querySelector(selector);
     this._config = config;
-    this._openedPopup = document.querySelector(config.popupOpenClass);
+    this._handleEscClose = this._handleEscClose.bind(this);
   }
 
-  _handleEscClose(evt) { // что-то не так
+  _handleEscClose(evt) { 
     if (evt.key === "Escape") {
-      this.close(this._openedPopup);
+      this.close();
     }
   }
 
   open() {
-    this._selector.classList.add(this._config.popupOpenClass); // слушатели должны быть в методе слушателей
-    // document.addEventListener("keydown", (evt) => {
-    //   this._handleEscClose(evt);
-    // });
+    this._container.classList.add(this._config.popupOpenClass);
+    document.addEventListener('keydown', this._handleEscClose);
   }
 
   close() {
-    this._selector.classList.remove(this._config.popupOpenClass);
-    // document.removeEventListener("keydown", (evt) => {
-    //   this._handleEscClose(evt);
-    // });
-  }
-
-  renderLoading(isLoading, evt) {
-    this._button = evt.submitter;
-
-    if (isLoading) {
-      this._button.textContent = "Сохранение...";
-      this._button.classList.remove(this._config.inactiveButtonClass);
-    } else {
-      this._button.textContent = "Сохранить";
-      this._button.classList.add(this._config.inactiveButtonClass);
-    }
+    this._container.classList.remove(this._config.popupOpenClass);
+    document.removeEventListener("keydown", this._handleEscClose);
   }
 
   setEventListeners() {
-    this._selector.addEventListener("mousedown", (evt) => {
+    this._container.addEventListener("mousedown", (evt) => {
+      evt.preventDefault();
       if (evt.target.classList.contains(this._config.popupOpenClass)) {
         this.close();
       }
-
-      // document.addEventListener("keydown", (evt) => {
-      //   this._handleEscClose(evt);
-      // });
 
       if (evt.target.classList.contains(this._config.popupButtonCloseClass)) {
         this.close();
       }
 
-      // document.removeEventListener("keydown", (evt) => {
-      //   this._handleEscClose(evt);
-      // });
     });
   }
 }
