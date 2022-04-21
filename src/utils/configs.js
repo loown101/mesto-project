@@ -1,4 +1,10 @@
-const validationConfig = {
+const userConfig = {
+  userNameSelector: '.profile__title',
+  userAboutSelector: '.profile__subtitle',
+  userAvatarSelector: '.profile__avatar',
+}
+
+const validateConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
 
@@ -27,8 +33,8 @@ const popupConfig = {
   popupPlaceSelector: '.pop-up__place',
 }
 
-const cardConfig = {
-  cardTempaleteID: '#card',
+const galleryConfig = {
+  cardTempaleteSelector: '#card',
 
   likeButtonClass: 'gallery__button-like',
   likeButtonClassActive: 'gallery__button-like_active',
@@ -42,7 +48,7 @@ const cardConfig = {
   galleryPicSelector: '.gallery__pic',
   galleryItemDescriptionSelector: '.gallery__item-descriprion',
 
-  galleryList: '.gallery__list'
+  galleryList: '.gallery__list',
 }
 
-export { popupConfig, cardConfig, validationConfig };
+export { userConfig, popupConfig, galleryConfig, validateConfig };

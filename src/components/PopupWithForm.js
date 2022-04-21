@@ -1,38 +1,25 @@
-import { popupConfig, validationConfig } from './configs.js';
 import Popup from './Popup.js';
 export default class PopupWithForm extends Popup {
-  constructor({ selector, callback }) {
-    super(selector);
-    this._callback = callback;
-    this._form = this._selector.querySelector(popupConfig.popupFormSelector);
-    this.setEventListeners();
+  constructor({ selector, config, submitForm }) {
+    super(selector, config);
+    this._submitForm = submitForm;
+    this._form = this._container.querySelector(config.popupFormSelector);
+    this._objInput = {};
+    this._inputList = [...this._form];
   }
 
   _getInputValues() {
-    const objInput = {};
-
-    [...this._form].forEach(element => {
-      objInput[element.name] = element.value;
+    this._inputList.forEach(element => {
+      this._objInput[element.name] = element.value;
     });
 
-    return objInput;
+    return this._objInput;
   }
 
-  disabledButton(evt) {
-    evt.submitter.setAttribute('disabled', 'disabled');
-    evt.submitter.classList.add(validationConfig.inactiveButtonClass);
-  }
-
-  renderLoading(isLoading, evt) {
-    const btn = evt.submitter;
-
-    if (isLoading) {
-      btn.textContent = 'Сохранение...';
-      btn.classList.remove(validationConfig.inactiveButtonClass);
-    } else {
-      btn.textContent = 'Сохранить';
-      btn.classList.add(validationConfig.inactiveButtonClass);
-    }
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      input.value = data[input.name];
+    });
   }
 
   close() {
@@ -43,9 +30,20 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._selector.addEventListener('submit', (evt) => {
+
+    this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._callback(evt, this._getInputValues());
+      this._submitButton = evt.submitter;
+
+      const initialText = this._submitButton.textContent;
+
+      this._submitButton.textContent = 'Сохранение...';
+      this._submitForm(this._getInputValues())
+        .then(() => this.close())
+        .finally(() => {
+          this._submitButton.textContent = initialText;
+        })
     });
-  }
+  };
+
 }
