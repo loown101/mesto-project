@@ -1,26 +1,20 @@
-import { api } from '../pages/index.js'; // удалить в будущем
 export default class UserInfo {
-  constructor({ nameElement, aboutElement, avatarElement }) {
-    this._name = nameElement;
-    this._about = aboutElement;
-    this._avatar = avatarElement;
+  constructor({ nameSelector, aboutSelector, avatarSelector, handleGetUserInfo }) {
+    this._name = document.querySelector(nameSelector);
+    this._about = document.querySelector(aboutSelector);
+    this._avatar = document.querySelector(avatarSelector);
+    this._handleGetUserInfo = handleGetUserInfo;
   }
 
-  getUserInfo(data) { // убрать связку
-    api.getUserInfo()
-      .then((res) => {
-        data.name.value = res.name;
-        data.about.value = res.about;
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      })
+  getUserInfo() {
+    return this._handleGetUserInfo()
   }
 
-  setUserInfo(config) {
-    this._name.textContent = config.name;
-    this._about.textContent = config.about;
-    this._avatar.src = config.avatar;
+  setUserInfo({ name, about, avatar, _id }) {
+    this._name.textContent = name;
+    this._about.textContent = about;
+    this._avatar.src = avatar;
+    this._id = _id;
   }
 
 }

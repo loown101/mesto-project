@@ -1,3 +1,9 @@
+const userConfig = {
+  userNameSelector: '.profile__title',
+  userAboutSelector: '.profile__subtitle',
+  userAvatarSelector: '.profile__avatar',
+}
+
 const validateConfig = {
   formSelector: '.pop-up__forms',
   inputSelector: '.pop-up__profile-input',
@@ -42,7 +48,7 @@ const galleryConfig = {
   galleryPicSelector: '.gallery__pic',
   galleryItemDescriptionSelector: '.gallery__item-descriprion',
 
-  galleryList: '.gallery__list'
+  galleryList: '.gallery__list',
 }
 
-export { popupConfig, galleryConfig, validateConfig };
+export { userConfig, popupConfig, galleryConfig, validateConfig };

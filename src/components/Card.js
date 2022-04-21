@@ -1,9 +1,10 @@
-import { api } from '../pages/index.js'; // в будущем удалить
 export default class Card {
-  constructor(data, selector, config, { handleCardClick }) {
+  constructor(data, selector, config, { handleCardClick, handleLikeToggle, handleDelete }) {
     this._container = document.querySelector(selector);
     this._data = data;
     this._handleCardClick = handleCardClick;
+    this._handleLikeToggle = handleLikeToggle;
+    this._handleDelete = handleDelete;
     this._config = config;
   }
 
@@ -17,24 +18,21 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector(this._config.galleryPicSelector).addEventListener('click', () => {
-        this._handleCardClick(this._data);
-      });
+    this._image.addEventListener('click', () => {
+      this._handleCardClick(this._data);
+    });
 
-    this._element.querySelector(this._config.deleteButtonSelector).addEventListener('click', (event) => {
-        api.deleteCard(this._data._id)
-          .then(() => {
-            this._deleteCard(event);
-          })
-          .catch((err) => {
-            console.log('Ошибка. Запрос не выполнен: ', err);
-          })
-      });
+    this._deleteBtn.addEventListener('click', (event) => {
+      this._handleDelete(this._data._id)
+        .then(() => {
+          this._deleteCard(event);
+        })
+        .catch((err) => {
+          console.log('Ошибка. Запрос не выполнен: ', err);
+        })
+    });
 
-
-    this._element
-      .querySelector(this._config.likeButtonSelector)
-      .addEventListener('click', this._toggleLikeBtn.bind(this))
+    this._likeBtn.addEventListener('click', this._toggleLikeBtn.bind(this))
   }
 
   _toggleLikeBtn(event) {
@@ -48,12 +46,12 @@ export default class Card {
       method = 'PUT';
     }
 
-    api.getLikeCard(this._data._id, method)
+    this._handleLikeToggle(this._data._id, method)
       .then((data) => {
         this._data.likes = data.likes;
 
         target.classList.toggle(this._config.likeButtonClassActive);
-        this._element.querySelector(this._config.likeShowSelector).textContent = data.likes.length;
+        this._cardShowLike.textContent = data.likes.length;
       })
       .catch((err) => {
         console.log('Ошибка. Запрос не выполнен: ', err);
@@ -66,17 +64,22 @@ export default class Card {
     target.closest(this._config.galleryItemSelector).remove();
   }
 
-  generate(myId) {
+  generate(userId) {
     this._element = this._getElement();
-    this._gallery = this._element.querySelector(this._config.galleryPicSelector);
-    
+
+    this._image = this._element.querySelector(this._config.galleryPicSelector);
+    this._cardImageDesc = this._element.querySelector(this._config.galleryItemDescriptionSelector);
+    this._cardShowLike = this._element.querySelector(this._config.likeShowSelector);
+    this._likeBtn = this._element.querySelector(this._config.likeButtonSelector);
+    this._deleteBtn = this._element.querySelector(this._config.deleteButtonSelector)
+
     this._setEventListeners();
-    
-    this._gallery.src = `${this._data.link}`;
-    this._gallery.alt = `${this._data.name}`;
-    this._gallery.dataset.id = this._data._id;
-    this._element.querySelector(this._config.galleryItemDescriptionSelector).textContent = `${this._data.name}`;//подумать сделать переменные отдельно
-    this._element.querySelector(this._config.likeShowSelector).textContent = `${this._data.likes.length}`;
+
+    this._image.src = `${this._data.link}`;
+    this._image.alt = `${this._data.name}`;
+    this._image.dataset.id = this._data._id;
+    this._cardImageDesc.textContent = `${this._data.name}`;
+    this._cardShowLike.textContent = `${this._data.likes.length}`;
 
     const likesOwnerID = [];
 
@@ -85,16 +88,11 @@ export default class Card {
     });
 
     if (likesOwnerID.includes(this._data.owner._id)) {
-      this._element
-        .querySelector(this._config.likeButtonSelector)
-        .classList
-        .add(this._config.likeButtonClassActive);
+      this._likeBtn.classList.add(this._config.likeButtonClassActive);
     }
 
-    if (myId !== this._data.owner._id) {
-      this._element
-        .querySelector(this._config.deleteButtonSelector)
-        .remove();
+    if (userId !== this._data.owner._id) {
+      this._deleteBtn.remove();
     }
 
     return this._element;

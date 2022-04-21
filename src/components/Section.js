@@ -7,13 +7,13 @@ export default class Section {
 
   renderItems(items) {
     this.clear();
-    
+
     items.forEach((item) => {
       this.addItem(item);
     });
   }
 
-  addItem(item) {
+  addItem(item) { // подумать насчет флага
     const card = this._renderer(item, this._config)
     this._container.prepend(card);
   }
