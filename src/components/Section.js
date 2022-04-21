@@ -6,19 +6,14 @@ export default class Section {
   }
 
   renderItems(items) {
-    this.clear();
-
     items.forEach((item) => {
       this.addItem(item);
     });
   }
 
-  addItem(item) { // подумать насчет флага
+  addItem(item) {
     const card = this._renderer(item, this._config)
     this._container.prepend(card);
   }
 
-  clear() {
-    this._container.textcontent = '';
-  }
 }

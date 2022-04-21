@@ -2,10 +2,10 @@ export default class Card {
   constructor(data, selector, config, { handleCardClick, handleLikeToggle, handleDelete }) {
     this._container = document.querySelector(selector);
     this._data = data;
+    this._config = config;
     this._handleCardClick = handleCardClick;
     this._handleLikeToggle = handleLikeToggle;
     this._handleDelete = handleDelete;
-    this._config = config;
   }
 
   _getElement() {
