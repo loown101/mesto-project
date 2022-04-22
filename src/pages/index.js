@@ -82,6 +82,8 @@ const profilePopup = new PopupWithForm({
   },
 });
 
+profilePopup.setEventListeners();
+
 const avatarPopup = new PopupWithForm({
   selector: popupConfig.popupAvatarSelector,
   config: popupConfig,
@@ -96,6 +98,8 @@ const avatarPopup = new PopupWithForm({
       });
   },
 });
+
+avatarPopup.setEventListeners();
 
 const placePopup = new PopupWithForm({
   selector: popupConfig.popupPlaceSelector,
@@ -112,8 +116,9 @@ const placePopup = new PopupWithForm({
   },
 });
 
+placePopup.setEventListeners();
+
 addButton.addEventListener('click', function () {
-  placePopup.setEventListeners();
   placePopup.open();
 
   formValidators['place-form'].resetValidation();
@@ -121,7 +126,6 @@ addButton.addEventListener('click', function () {
 
 editButton.addEventListener('click', function () {
   userInfo.getUserInfo().then((res) => {
-    profilePopup.setEventListeners();
     profilePopup.setInputValues({
       'profile-name': res.name,
       'profile-description': res.about,
@@ -142,7 +146,6 @@ editAvatarBtn.addEventListener('mouseout', () => {
 });
 
 editAvatarBtn.addEventListener('click', () => {
-  avatarPopup.setEventListeners();
   avatarPopup.open();
 
   formValidators['avatar-form'].resetValidation();
