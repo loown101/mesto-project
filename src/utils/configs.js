@@ -31,6 +31,7 @@ const popupConfig = {
   popupProfileSelector: '.pop-up__profile',
   popupAvatarSelector: '.pop-up__avatar',
   popupPlaceSelector: '.pop-up__place',
+  deleteImagePopupSelector: '.pop-up__deletephoto',
 }
 
 const galleryConfig = {

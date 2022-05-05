@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, selector, config, { handleCardClick, handleLikeToggle, handleDelete }) {
+  constructor(data, selector, config, { handleCardClick, handleLikeToggle, handleDelete, }) {
     this._container = document.querySelector(selector);
     this._data = data;
     this._config = config;
@@ -23,13 +23,9 @@ export default class Card {
     });
 
     this._deleteBtn.addEventListener('click', (event) => {
-      this._handleDelete(this._data._id)
-        .then(() => {
-          this._deleteCard(event);
-        })
-        .catch((err) => {
-          console.log('Ошибка. Запрос не выполнен: ', err);
-        })
+      this._handleDelete(this._data._id, () => {
+        this._deleteCard(event);
+      })
     });
 
     this._likeBtn.addEventListener('click', this._toggleLikeBtn.bind(this))

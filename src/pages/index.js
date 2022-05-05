@@ -18,6 +18,7 @@ import FormValidate from '../components/FormValidate.js';
 import Card from '../components/Card.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage';
+import PopupWithDelete from '../components/PopupWithDelete';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 
@@ -52,8 +53,6 @@ const enableValidation = (config) => {
   });
 };
 
-enableValidation(validateConfig);
-
 const cardList = new Section(
   renderer,
   galleryConfig.galleryList,
@@ -64,8 +63,6 @@ const imagePopup = new PopupWithImage(
   popupConfig.popupImageSelector,
   popupConfig
 );
-
-imagePopup.setEventListeners();
 
 const profilePopup = new PopupWithForm({
   selector: popupConfig.popupProfileSelector,
@@ -82,8 +79,6 @@ const profilePopup = new PopupWithForm({
   },
 });
 
-profilePopup.setEventListeners();
-
 const avatarPopup = new PopupWithForm({
   selector: popupConfig.popupAvatarSelector,
   config: popupConfig,
@@ -99,8 +94,6 @@ const avatarPopup = new PopupWithForm({
   },
 });
 
-avatarPopup.setEventListeners();
-
 const placePopup = new PopupWithForm({
   selector: popupConfig.popupPlaceSelector,
   config: popupConfig,
@@ -108,7 +101,7 @@ const placePopup = new PopupWithForm({
     return api
       .addCard(data['place-name'], data['place-description'])
       .then((res) => {
-        cardList.renderItems([res]);
+        cardList.renderItems([res], 'prepend');
       })
       .catch((err) => {
         console.log('Ошибка. Запрос не выполнен: ', err);
@@ -116,7 +109,7 @@ const placePopup = new PopupWithForm({
   },
 });
 
-placePopup.setEventListeners();
+const deleteImagePopup = new PopupWithDelete(popupConfig.deleteImagePopupSelector, popupConfig)
 
 addButton.addEventListener('click', function () {
   placePopup.open();
@@ -134,7 +127,7 @@ editButton.addEventListener('click', function () {
     profilePopup.open();
   });
 
-    formValidators['profile-form'].resetValidation();
+  formValidators['profile-form'].resetValidation();
 });
 
 editAvatarBtn.addEventListener('mouseover', () => {
@@ -151,6 +144,16 @@ editAvatarBtn.addEventListener('click', () => {
   formValidators['avatar-form'].resetValidation();
 });
 
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then(([userData, cards]) => {
+    user.id = userData._id;
+    userInfo.setUserInfo(userData);
+    cardList.renderItems(cards, 'append');
+  })
+  .catch((err) => {
+    console.log('Ошибка. Запрос не выполнен: ', err);
+  });
+
 function renderer(item, config) {
   const card = new Card(item, config.cardTempaleteSelector, config, {
     handleCardClick: (item) => {
@@ -159,8 +162,9 @@ function renderer(item, config) {
     handleLikeToggle: (cardId, method) => {
       return api.getLikeCard(cardId, method);
     },
-    handleDelete: (cardId) => {
-      return api.deleteCard(cardId);
+    handleDelete: (cardId, handleDeleteClick) => {
+      deleteImagePopup.open()
+      return deleteImagePopup.setSubmitAction(deleteCardApi, handleDeleteClick, cardId);
     },
   });
 
@@ -168,15 +172,9 @@ function renderer(item, config) {
   return cardElement;
 }
 
-Promise.all([api.getUserInfo(), api.getCards()])
-  .then(([userData, cards]) => {
-    user.id = userData._id;
-    userInfo.setUserInfo(userData);
-    cardList.renderItems(cards);
-  })
-  .catch((err) => {
-    console.log('Ошибка. Запрос не выполнен: ', err);
-  });
+function deleteCardApi(cardId) {
+  return api.deleteCard(cardId)
+}
 
 function showEditBtn(editImage) {
   editImage.classList.add(popupConfig.popupAvatarActiveClass);
@@ -185,3 +183,11 @@ function showEditBtn(editImage) {
 function hiddenEditBtn(editImage) {
   editImage.classList.remove(popupConfig.popupAvatarActiveClass);
 }
+
+deleteImagePopup.setEventListeners();
+imagePopup.setEventListeners();
+profilePopup.setEventListeners();
+avatarPopup.setEventListeners();
+placePopup.setEventListeners();
+
+enableValidation(validateConfig);
