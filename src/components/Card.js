@@ -6,6 +6,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleLikeToggle = handleLikeToggle;
     this._handleDelete = handleDelete;
+    this._toggleLikeBtn = this._toggleLikeBtn.bind(this);
   }
 
   _getElement() {
@@ -28,7 +29,7 @@ export default class Card {
       })
     });
 
-    this._likeBtn.addEventListener('click', this._toggleLikeBtn.bind(this))
+    this._likeBtn.addEventListener('click', this._toggleLikeBtn)
   }
 
   _toggleLikeBtn(event) {
@@ -83,7 +84,7 @@ export default class Card {
       likesOwnerID.push(element._id);
     });
 
-    if (likesOwnerID.includes(this._data.owner._id)) {
+    if (likesOwnerID.includes(userId)) {
       this._likeBtn.classList.add(this._config.likeButtonClassActive);
     }
 

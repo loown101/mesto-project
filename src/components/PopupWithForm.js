@@ -35,13 +35,13 @@ export default class PopupWithForm extends Popup {
       evt.preventDefault();
       this._submitButton = evt.submitter;
 
-      const initialText = this._submitButton.textContent;
+      this._initialText = this._submitButton.textContent;
 
       this._submitButton.textContent = 'Сохранение...';
       this._submitForm(this._getInputValues())
         .then(() => this.close())
         .finally(() => {
-          this._submitButton.textContent = initialText;
+          this._submitButton.textContent = this._initialText;
         })
     });
   };

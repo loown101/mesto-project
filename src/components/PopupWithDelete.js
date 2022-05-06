@@ -18,6 +18,11 @@ export default class PopupWithDelete extends Popup {
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
 
+      this._submitButton = evt.submitter;
+      this._initialText = this._submitButton.textContent;
+
+      this._submitButton.textContent = 'Удаление...';
+
       this._handleSubmitCallback(this._cardOwnerID)
         .then(() => {
           this.close()
@@ -25,6 +30,9 @@ export default class PopupWithDelete extends Popup {
         })
         .catch((err) => {
           console.log('Ошибка. Запрос не выполнен: ', err);
+        })
+        .finally(() => {
+          this._submitButton.textContent = this._initialText;
         })
     })
   }
