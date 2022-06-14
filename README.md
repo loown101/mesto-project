@@ -22,3 +22,7 @@
 **Деплой**
 
 https://loown101.github.io/mesto-project/index.html
+
+**Над проектов работали**
+Диана Пылаева https://github.com/loown101
+Любовь Васильева https://github.com/Luba-web
